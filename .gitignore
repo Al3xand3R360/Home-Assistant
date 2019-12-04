@@ -6,10 +6,9 @@
 !*.yaml
 !.gitignore
 !*.md
-!dimmer.py
 !bravia.conf
-!custom_components/*
-!www/*
+!/custom_components/
+!/www/
 
 # Ignore folders.
 .storage
