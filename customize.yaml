@@ -1,0 +1,5 @@
+media_player.sony_bravia_tv: 
+  friendly_name: Televisie
+  icon: mdi:television
+  device_class: tv
+  source_list: [HDMI 1, HDMI 2, NPO 1, NPO 3, RTL 4, SBS 6]

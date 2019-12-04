@@ -1,0 +1,322 @@
+- id: '1530442018643'
+  alias: Wallmote button 1 tap
+  hide_entity: false
+  initial_state: 'on'
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 1
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+  - data:
+      entity_id: script.1549758951085
+    service: script.toggle
+- id: '1530442018644'
+  alias: Wallmote button 1 hold
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 1
+      scene_data: 2
+  action:
+    service: light.turn_off
+    data:
+      entity_id: all
+- id: '1530442018645'
+  alias: Wallmote button 2 tap
+  hide_entity: false
+  initial_state: 'on'
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 2
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+  - data:
+      entity_id: script.1549758920504
+    service: script.toggle
+- id: '1530442018646'
+  alias: Wallmote button 2 hold
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 2
+      scene_data: 2
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data:
+      entity_id: alarm_control_panel.home_alarm
+      code: '1234'
+  - service: notify.mobile_app_iphone_x_alexander
+    data:
+      title: 'Alarm!'
+      message: 'The alarm was ARMED at {{now().strftime("%H:%M %d-%m-%Y")}}'
+      data:
+        subtitle: 'ARMED AWAY'            
+- id: '1530442018647'
+  alias: Wallmote button 3 tap
+  hide_entity: false
+  initial_state: 'on'
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 3
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- id: '1530442018648'
+  alias: Wallmote button 3 hold
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 2
+      scene_id: 3
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.stop_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- id: '1530442018641'
+  alias: Wallmote button 4 tap
+  hide_entity: false
+  initial_state: 'on'
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 4
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- id: '1530442018642'
+  alias: Wallmote button 4 hold
+  hide_entity: false
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 4
+      scene_data: 2
+  action:
+    - service: cover.stop_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+
+- id: '1530442018649'
+  alias: "Media player paused/stopped"
+  trigger:
+    - platform: state
+      entity_id: media_player.woonkamer
+      to: 'paused'
+      from: 'playing'
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+      service: script.toggle
+      entity_id: script.1549758920504
+
+- id: '1530442018650'
+  alias: "Media player playing"
+  trigger:
+    - platform: state
+      entity_id: media_player.woonkamer
+      to: 'playing'
+      from: 'paused'
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+      service: script.toggle
+      entity_id: script.1549758477586
+
+- id: '1530442018651'
+  alias: "Xbox turned on"
+  trigger:
+    - platform: state
+      entity_id: media_player.xbox_one
+      from: 'off'
+      to: 'on'
+  action:
+      service: light.turn_on
+      data:
+        entity_id: light.ledstrip_achter_tv
+        color_name: green
+        transition: 5
+        brightness: 128
+
+##### Send notification when lights are left on ######
+- id: '1530442018652'
+  alias: Notify if lights are left on
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      from: 'home'
+      to: 'not_home'
+  condition:
+    - condition: state
+      entity_id: group.all_lights
+      state: 'on'
+  action:
+      service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: "WARNING"
+        message: "We've detected you've left the house, some lights are still on!"
+        data:
+          subtitle: "The lights are still on"
+
+##### Alarm DISARM automations #########################
+- id: '1530442018655'          
+  alias: 'Send notification when alarm is Disarmed'
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: 'disarmed'
+  action:
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'Alarm!'
+        message: 'The alarm is Disarmed at {{now().strftime("%H:%M %d-%m-%Y")}}'
+        data:
+          subtitle: 'DISARMED'
+    - service: light.turn_off
+      entity_id: light.spot_kek_amsterdam
+    - service: switch.turn_off
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+
+##### TRIGGER Alarm automations ########################
+- id: '1530442018656'
+  alias: 'Trigger alarm while armed away'
+  trigger:
+    - platform: state
+      entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
+      from: '23'
+      to: '22'
+  condition:
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: 'armed_away'
+    - condition: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      state: 'away'
+  action:
+    - service: alarm_control_panel.alarm_trigger
+      entity_id: alarm_control_panel.ha_alarm
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'ALARM!'
+        message: 'The alarm is Triggerd at {{now().strftime("%H:%M %d-%m-%Y")}}'
+        data:
+          subtitle: 'The alarm is triggerd at {{now().strftime("%H:%M %d-%m-%Y")}}'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.speakers
+        volume: 0.4
+        message: 'ATTENTIE!! Inbraak gedetecteerd, over 5 seconden gaat het alarm af.'
+        delay: '00:00:05'
+    - service: light.turn_on
+      data:
+        entity_id: light.spot_kek_amsterdam
+        flash: long
+        color_name: red
+        brightness: 255
+    - service: switch.turn_on
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+
+############## Doorbird ###################
+# Event Catcher Automation to trigger showing Door UI in frontend via conditional card
+- id: '1530442018657'
+  alias: Doorbird Ring
+  initial_state: 'true'
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_doorbell
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.visitor_ring
+    - service: persistent_notification.create
+      data:
+        title: 'De deurbel gaat'
+        message: 'Er staat iemand voor de voordeur..'
+
+# Cancel Automation to reset input_boolean when no action was taken for 3 minutes
+- id: '1530442018658'
+  alias: Cancel Ring after 30 seconds
+  initial_state: 'true'
+  trigger:
+    - platform: state
+      entity_id: input_boolean.visitor_ring
+      from: "off"
+      to: "on"
+      for: '00:03:00'
+  action:
+    - service: homeassistant.turn_off
+      data_template:
+        entity_id: input_boolean.visitor_ring
+
+# Event Catcher automation when motion is detected
+- id: '1530442018659'
+  alias: Doorbird motion
+  initial_state: 'true'
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_motion
+  condition:
+    - condition: state
+      entity_id:  alarm_control_panel.home_alarm
+      state: 'armed_away'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.spot_kek_amsterdam
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'Voordeur bewegingssensor'
+        message: 'Er is beweging gedetecteerd bij de voordeur om: {{now().strftime("%H:%M %d-%m-%Y")}}'
+
+# Event Catcher Automation when RFID card is scanned
+- id: '1530442018660'
+  alias: Doorbird RFID
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_rfid_card_scanned
+  action:
+    - service: alarm_control_panel.alarm_disarm
+      data:
+        entity_id: alarm_control_panel.home_alarm
+        code: '1234'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.speakers
+        volume: 0.3
+        message: 'De RFID tag is geldig, het alarm wordt uitgeschakeld.. Welkom thuis'
+        delay: '00:00:07'
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'RFID card gescanned'
+        subtitle: 'Er is een geldige RFID card herkend..'
+        message: 'Alarm is uitgeschakeld om: {{now().strftime("%H:%M %d-%m-%Y")}}'

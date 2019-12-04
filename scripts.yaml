@@ -1,0 +1,76 @@
+'1549758477586':
+  alias: Hue gaming scene
+  sequence:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: Woonkamer
+      scene_name: Colorfull
+'1549758920504':
+  alias: Hue watch TV scene
+  sequence:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: Woonkamer
+      scene_name: TV kijken
+'1549758951085':
+  alias: Hue full light scene
+  sequence:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: Woonkamer
+      scene_name: Veel licht
+
+dimmer:
+  sequence:
+    - service: light.turn_on
+      data_template:
+        entity_id: '{{ light_id }}'
+        brightness: >-
+          {% set domain, name = light_id.split('.') %}
+          {% set current = states[domain][name].attributes.brightness | int %}
+          {% set step = states('input_number.light_step') | int %}
+          {% set action = swipe_action %}
+          {% if action == 'swipe_up' %}
+            {% set next = current + step | int %}
+          {% elif action == 'swipe_down' %}
+            {% set next = current - step | int %}
+          {% endif %}
+          {% if next > states('input_number.light_maximum') | int %}
+            {% set next = states('input_number.light_maximum') | int %}
+          {% elif next < states('input_number.light_minimum') | int %}
+            {% set next = states('input_number.light_minimum') | int %}
+          {% endif %}
+
+          {{ next }}
+
+sonos_say:
+  alias: "Sonos TTS script"
+  sequence:
+   - service: sonos.snapshot
+     data_template:
+       entity_id: "{{ sonos_entity }}"
+   - service: sonos.unjoin
+     data_template:
+       entity_id: "{{ sonos_entity }}"
+   - service: media_player.volume_set
+     data_template:
+       entity_id: "{{ sonos_entity }}"
+       volume_level: "{{ volume }}"
+   - service: tts.google_translate_say
+     data_template:
+       entity_id: "{{ sonos_entity }}"
+       message: "{{ message }}"
+   - delay: "{{ delay }}"
+   - service: sonos.restore
+     data_template:
+       entity_id: "{{ sonos_entity }}"
+
+turn_on_light:
+  sequence:
+  - service: homeassistant.toggle
+    data_template:
+      entity_id: light.spot_kek_amsterdam
+  - service: homeassistant.turn_off
+    data_template:
+      entity_id: input_boolean.visitor_ring
+

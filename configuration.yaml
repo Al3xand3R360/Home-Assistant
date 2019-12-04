@@ -1,0 +1,213 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 10
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+#frontend:
+#  themes: !include_dir_merge_named themes/ 
+
+# Enables configuration UI
+config:
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+recorder:
+  purge_keep_days: 2
+  purge_interval: 1
+  db_url: sqlite:///home/homeassistant/.homeassistant/home-assistant_v2.db
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Allow diagnosing system problems
+system_health:
+
+# Person integration
+person:
+
+# IOS app integration
+mobile_app:
+
+# Add to Homekit
+homekit:
+  auto_start: False
+  filter:
+    include_entities:
+       - sensor.br_temperature_2
+       - media_player.xbox_one
+       - media_player.sony_bravia_tv
+  entity_config:
+    media_player.xbox_one:
+      feature_list:
+         - feature: on_off
+
+# DuckDNS for remote access to HASS
+duckdns:
+  domain: hass-vansteen
+  access_token: !secret duck_access_token
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: buienradar
+    monitored_conditions:
+      - symbol
+      - humidity
+      - temperature
+      - windspeed
+      - pressure
+
+# Alarm panel config
+# Example configuration.yaml entry
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    code: 1234
+    pending_time: 5
+    delay_time: 5
+    trigger_time: 5
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      pending_time: 0
+      delay_time: 0
+
+# Text to speech
+tts:
+  - platform: google_translate
+    language: 'nl'
+
+# Media Player component
+media_player:
+  - platform: braviatv
+    host: 192.168.178.24
+  - platform: xboxone
+    device: !secret xbox_live_id
+    ip_address: 192.168.178.23
+    name: Xbox One
+
+# AppleTV tvOS13
+apple_tv_mrp:
+  - name: Woonkamer
+    host: 192.168.178.22
+    port: 49152
+    credentials: !secret atv_credentials
+    start_off: true
+
+# Intercom configuration
+doorbird:
+  devices:
+    - host: !secret doorbird_host
+      username: !secret doorbird_user
+      password: !secret doorbird_pass
+      hass_url_override: 192.168.178.25
+      token: !secret doorbird_token
+      name: 'Front Door'
+      events:
+        - doorbell
+        - motion
+        - rfid_card_scanned
+
+camera:
+  - platform: doorbird
+
+switch:
+  - platform: doorbird
+
+# Tado thermostats
+tado:
+  username: !secret tado_user
+  password: !secret tado_pass
+
+# Input_boolean used for Doorbird conditional card in frontend
+input_boolean:
+  visitor_ring:
+    name: 'De voordeur bel gaat!'
+    initial: off
+
+# Light steps for dimming feature Wallmote
+input_number:
+  light_step:
+    name: 'Step the lights this much'
+    initial: 64
+    min: 1
+    max: 128
+    step: 6
+
+  light_minimum:
+    name: 'No dimmer than this'
+    initial: 5
+    min: 1
+    max: 255
+    step: 1
+
+  light_maximum:
+    name: 'No brighter than this'
+    initial: 255
+    min: 50
+    max: 255
+    step: 1
+
+cover:
+  - platform: group
+    name: Rolluiken kamer Rens
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level
+      - cover.aeon_labs_zw141_nano_shutter_level_2
+      - cover.aeon_labs_zw141_nano_shutter_level_3
+  - platform: group
+    name: Rolluiken kamer Maxime
+    entities: []
+
+#SSL (LE) settings
+http:
+  ssl_certificate: /etc/letsencrypt/live/hass-vansteen.duckdns.org/fullchain.pem
+  ssl_key: /etc/letsencrypt/live/hass-vansteen.duckdns.org/privkey.pem
+  base_url: !secret hass_url
+  #  api_password: !secret http_api_password
+
+# Cloud
+cloud:
+
+# Z-Wave configuration
+zwave:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
