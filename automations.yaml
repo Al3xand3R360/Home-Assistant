@@ -209,19 +209,19 @@
 
 ##### TRIGGER Alarm automations ########################
 - id: '1530442018656'
-  alias: 'Trigger alarm while armed away'
+  alias: 'Trigger alarm while armed for night'
   trigger:
     - platform: state
       entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
-      from: '23'
+      #      from: '23|254'
       to: '22'
   condition:
     - condition: state
       entity_id: alarm_control_panel.home_alarm
-      state: 'armed_away'
+      state: 'armed_night'
     - condition: state
       entity_id: device_tracker.iphone_x_alexander_2
-      state: 'away'
+      state: 'home'
   action:
     - service: alarm_control_panel.alarm_trigger
       entity_id: alarm_control_panel.ha_alarm
@@ -243,8 +243,8 @@
         flash: long
         color_name: red
         brightness: 255
-    - service: switch.turn_on
-      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+        #    - service: switch.turn_on
+        #      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
 
 ############## Doorbird ###################
 # Event Catcher Automation to trigger showing Door UI in frontend via conditional card

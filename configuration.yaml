@@ -13,12 +13,20 @@ homeassistant:
   # Customization file
   customize: !include customize.yaml
 
+weather:
+   - platform: buienradar
+
 # Show links to resources in log and frontend
 #introduction:
 
 # Enables the frontend
-#frontend:
-#  themes: !include_dir_merge_named themes/ 
+frontend:
+  themes: !include themes.yaml
+#themes: !include_dir_merge_named themes/ 
+
+# Set lovelace to yaml mode instead of UI
+lovelace:
+  mode: yaml
 
 # Enables configuration UI
 config:
@@ -71,7 +79,8 @@ homekit:
     include_entities:
        - sensor.br_temperature_2
        - media_player.xbox_one
-       - media_player.sony_bravia_tv
+       - media_player.mybraviatv
+       - cover.rolluiken_kamer_rens
   entity_config:
     media_player.xbox_one:
       feature_list:
@@ -115,8 +124,16 @@ tts:
 
 # Media Player component
 media_player:
-  - platform: braviatv
+  - platform: braviatv_psk
     host: 192.168.178.24
+    psk: !secret braviatv_psk
+    mac: 90:48:9a:4c:7e:4e
+    amp: True
+    android: False
+    sourcefilter:
+      - ' HD'
+      - HDMI
+    name: MyBraviaTV
   - platform: xboxone
     device: !secret xbox_live_id
     ip_address: 192.168.178.23

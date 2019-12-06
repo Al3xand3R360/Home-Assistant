@@ -1,0 +1,295 @@
+title: Home
+views:
+  - badges:
+      - device_tracker.iphone_x_alexander_2
+      - sensor.battery_level
+      - sensor.battery_state
+      - sun.sun
+      - sensor.br_symbol_2
+    cards:
+      - cards:
+          - entity: group.all_lights
+            icon: 'mdi:lightbulb-outline'
+            icon_height: 157px
+            name: Alle lampen uit
+            tap_action:
+              action: call-service
+              service: light.turn_off
+            type: entity-button
+          - entity: light.woonkamer
+            name: Woonkamer
+            type: light
+        type: horizontal-stack
+        type: custom:weather-card
+        entity: weather.br_unknown_station
+        current: true
+        details: false
+        forecast: true
+      - cards:
+          - entity: sensor.woonkamer_temperature
+            graph: line
+            icon: 'mdi:sofa'
+            name: Tado Woonkamer
+            type: sensor
+          - entity: sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
+            graph: line
+            icon: 'mdi:door'
+            name: Sensor schuifpui
+            type: sensor
+        type: horizontal-stack
+      - cards:
+          - entity: sensor.br_humidity_2
+            graph: line
+            icon: 'mdi:apple-icloud'
+            name: Humidity buiten
+            type: sensor
+          - entity: sensor.woonkamer_humidity
+            graph: line
+            icon: 'mdi:sofa'
+            name: Humidity woonkamer
+            type: sensor
+        title: Luchtvochtigheid
+        type: horizontal-stack
+      - entities: []
+        entity: media_player.mybraviatv
+        hold_action:
+          action: more-info
+        state_image:
+          'off': /local/tv_off.jpg
+          'on': /local/tv_on.jpg
+        tap_action:
+          action: toggle
+        title: Sony Bravia
+        type: picture-glance
+      - entities: []
+        entity: media_player.xbox_one
+        hold_action:
+          action: more-info
+        state_image:
+          'off': /local/xbox_off.jpg
+          'on': /local/xbox_on.jpg
+          unknown: /local/xbox_on.jpg
+        tap_action:
+          action: toggle
+        title: Xbox One X
+        type: picture-glance
+      - entities: []
+        entity: lock.poly_control_danalock_v3_btze_locked
+        state_image:
+          locked: /local/danalock_closed.jpg
+          unlock: /local/danalock_open.jpg
+        tap_action:
+          action: more-info
+        title: Voordeur
+        type: picture-glance
+    icon: 'mdi:home'
+    path: default_view
+    title: Home
+  - badges:
+      - camera.front_door_last_motion
+      - camera.front_door_last_ring
+      - sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
+    cards:
+      - columns: 2
+        entities:
+          - entity: cover.rolluiken_kamer_rens
+          - entity: cover.rolluiken_kamer_maxime
+          - entity: lock.poly_control_danalock_v3_btze_locked
+        show_icon: true
+        show_state: true
+        title: Status van ramen & deuren
+        type: glance
+      - cards:
+          - entity: lock.poly_control_danalock_v3_btze_locked
+            icon: 'mdi:door-open'
+            name: Open Frontdoor
+            tap_action:
+              action: call-service
+              service: lock.unlock
+            type: entity-button
+          - entity: lock.poly_control_danalock_v3_btze_locked
+            icon: 'mdi:door-closed-lock'
+            name: Close Frontdoor
+            tap_action:
+              action: call-service
+              service: lock.lock
+            type: entity-button
+        type: horizontal-stack
+      - card:
+          cards:
+            - entity: camera.front_door_live
+              type: picture-entity
+            - cards:
+                - entity: lock.poly_control_danalock_v3_btze_locked
+                  hold_action:
+                    action: none
+                  icon: 'mdi:lock-open'
+                  name: Open Door
+                  tap_action:
+                    action: call-service
+                    service: lock.unlock
+                  theme: Backend-selected
+                  type: entity-button
+                - entity: input_boolean.visitor_ring
+                  hold_action:
+                    action: none
+                  icon: 'mdi:cancel'
+                  name: Ignore
+                  tap_action:
+                    action: toggle
+                  theme: Backend-selected
+                  type: entity-button
+              type: horizontal-stack
+          type: vertical-stack
+        conditions:
+          - entity: input_boolean.visitor_ring
+            state: 'on'
+        type: conditional
+    icon: 'mdi:cctv'
+    path: cameras
+    title: Camera's
+  - badges: []
+    cards:
+      - cards:
+          - entity: group.all_lights
+            icon: 'mdi:lightbulb-outline'
+            icon_height: 153px
+            name: Alle lampen uit
+            tap_action:
+              action: call-service
+              service: light.turn_off
+            type: entity-button
+          - entity: light.woonkamer
+            name: Dimmer
+            type: light
+        type: horizontal-stack
+      - entities:
+          - entity: script.1549758951085
+            icon: 'mdi:lightbulb-on-outline'
+            name: Alle lampen aan
+            tap_action:
+              action: toggle
+          - entity: script.1549758920504
+            icon: 'mdi:television'
+            name: TV kijken
+            tap_action:
+              action: toggle
+          - entity: script.1549758477586
+            icon: 'mdi:xbox'
+            name: Gamen
+            tap_action:
+              action: toggle
+        show_state: false
+        title: Hue Scenes
+        type: glance
+      - columns: 3
+        entities:
+          - entity: light.woonkamer
+            hold_action:
+              action: more-info
+            icon: 'mdi:sofa'
+            name: Woonkamer
+            tap_action:
+              action: toggle
+          - entity: light.eetkamer
+            hold_action:
+              action: more-info
+            icon: 'mdi:silverware-fork-knife'
+            name: Eetkamer
+            tap_action:
+              action: toggle
+          - entity: light.keuken
+            hold_action:
+              action: more-info
+            icon: 'mdi:stove'
+            tap_action:
+              action: toggle
+          - entity: light.carport
+            hold_action:
+              action: more-info
+            icon: 'mdi:car'
+            name: Carport
+            tap_action:
+              action: toggle
+          - entity: light.terras
+            hold_action:
+              action: more-info
+            icon: 'mdi:home-roof'
+            name: Terras
+            tap_action:
+              action: toggle
+          - entity: light.hue_color_pendant_down_1
+            hold_action:
+              action: more-info
+            icon: 'mdi:ceiling-light'
+            name: Kookeiland
+            tap_action:
+              action: toggle
+        show_icon: true
+        show_name: true
+        show_state: true
+        title: Hue verlichting
+        type: glance
+    icon: 'mdi:lightbulb'
+    title: Lights
+  - badges: []
+    cards:
+      - entity: alarm_control_panel.home_alarm
+        states:
+          - arm_away
+          - arm_night
+        type: alarm-panel
+    icon: 'mdi:shield-home'
+    panel: false
+    title: Security
+  - badges: []
+    cards:
+      - cards:
+          - entity: media_player.mybraviatv
+            type: media-control
+          - entity: media_player.speakers
+            type: media-control
+          - entity: media_player.xbox_one
+            type: media-control
+          - entity: media_player.woonkamer
+            type: media-control
+        type: vertical-stack
+    icon: 'mdi:airplay'
+    panel: false
+    title: Mediaplayers
+  - badges: []
+    cards:
+      - entities:
+          - entity: light.woonkamer
+          - entity: light.eetkamer
+          - entity: light.keuken
+          - entity: light.terras
+          - entity: light.carport
+        title: Light
+        type: entities
+      - entities:
+          - entity: automation.media_player_paused_stopped
+          - entity: automation.media_player_playing
+          - entity: automation.xbox_turned_on
+          - entity: automation.notify_if_lights_are_left_on
+          - entity: automation.trigger_alarm_while_armed_away
+        show_header_toggle: false
+        title: Automations
+        type: entities
+      - entities:
+          - entity: zwave.aeon_labs_zw090_z_stick_gen5_eu
+          - entity: zwave.aeon_labs_zw130_wallmote_quad
+          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
+          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
+          - entity: zwave.poly_control_danalock_v3_btze
+          - entity: zwave.aeon_labs_zw141_nano_shutter
+          - entity: zwave.aeon_labs_zw141_nano_shutter_2
+          - entity: zwave.aeon_labs_zw141_nano_shutter_3
+        title: Z-Wave
+        type: entities
+    icon: 'mdi:settings'
+    title: Settings
+resources:
+  - url: /local/custom-lovelace/weather-card/weather-card.js
+    type: module
+
