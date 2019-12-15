@@ -9,8 +9,8 @@
 !bravia.conf
 !/www/
 !/www/*
-!/www/custom_lovelace/
-!/www/custom_lovelace/*
+!/www/custom-lovelace/
+!/www/custom-lovelace/*
 !/themes/
 !/themes/*
 !/automation/
