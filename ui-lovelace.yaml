@@ -5,7 +5,6 @@ views:
       - sensor.battery_level
       - sensor.battery_state
       - sun.sun
-      - sensor.br_symbol_2
     cards:
       - cards:
           - entity: group.all_lights
@@ -20,11 +19,11 @@ views:
             name: Woonkamer
             type: light
         type: horizontal-stack
-        type: custom:weather-card
         entity: weather.br_unknown_station
         current: true
         details: false
         forecast: true
+        type: custom:weather-card
       - cards:
           - entity: sensor.woonkamer_temperature
             graph: line
@@ -77,7 +76,7 @@ views:
         entity: lock.poly_control_danalock_v3_btze_locked
         state_image:
           locked: /local/danalock_closed.jpg
-          unlock: /local/danalock_open.jpg
+          unlocked: /local/danalock_open.jpg
         tap_action:
           action: more-info
         title: Voordeur
@@ -85,10 +84,22 @@ views:
     icon: 'mdi:home'
     path: default_view
     title: Home
+  - badges: []
+    cards:
+      - entity: alarm_control_panel.home_alarm
+        states:
+          - arm_away
+          - arm_night
+        type: alarm-panel
+    icon: 'mdi:shield-home'
+    panel: false
+    title: Security
   - badges:
       - camera.front_door_last_motion
       - camera.front_door_last_ring
-      - sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
+      - binary_sensor.fuse_box_door
+      - binary_sensor.sliding_door
+      - sensor.br_symbol_2
     cards:
       - columns: 2
         entities:
@@ -184,6 +195,13 @@ views:
         type: glance
       - columns: 3
         entities:
+          - entity: light.hal
+            hold_action:
+              action: more-info
+            icon: 'mdi:stairs'
+            name: Hal
+            tap_action:
+              action: toggle
           - entity: light.woonkamer
             hold_action:
               action: more-info
@@ -204,11 +222,25 @@ views:
             icon: 'mdi:stove'
             tap_action:
               action: toggle
-          - entity: light.carport
+          - entity: light.hue_color_pendant_down_1
             hold_action:
               action: more-info
-            icon: 'mdi:car'
-            name: Carport
+            icon: 'mdi:ceiling-light'
+            name: Kookeiland
+            tap_action:
+              action: toggle
+          - entity: light.kamer_rens
+            hold_action:
+              action: more-info
+            icon: 'mdi:human-male-boy'
+            name: Kamer Rens
+            tap_action:
+              action: toggle
+          - entity: light.kamer_maxime
+            hold_action:
+              action: more-info
+            icon: 'mdi:human-female-girl'
+            name: Kamer Maxime
             tap_action:
               action: toggle
           - entity: light.terras
@@ -218,30 +250,101 @@ views:
             name: Terras
             tap_action:
               action: toggle
-          - entity: light.hue_color_pendant_down_1
+          - entity: light.carport
             hold_action:
               action: more-info
-            icon: 'mdi:ceiling-light'
-            name: Kookeiland
+            icon: 'mdi:car'
+            name: Carport
             tap_action:
               action: toggle
         show_icon: true
         show_name: true
-        show_state: true
+        show_state: false 
         title: Hue verlichting
         type: glance
     icon: 'mdi:lightbulb'
     title: Lights
   - badges: []
     cards:
-      - entity: alarm_control_panel.home_alarm
-        states:
-          - arm_away
-          - arm_night
-        type: alarm-panel
-    icon: 'mdi:shield-home'
-    panel: false
-    title: Security
+      - type: vertical-stack      
+        cards:
+          - type: 'custom:simple-thermostat'
+            entity: climate.woonkamer
+            step_size: 1
+            icon: 'mdi:sofa'
+            sensors:
+              - entity: sensor.woonkamer_temperature
+                name: Tado
+              - entity: sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
+                name: Schuifpui
+              - attribute: current_humidity
+                name: Luchtvochtigheid
+          - cards:
+              - entities: 
+                  - sensor.woonkamer_temperature
+                type: custom:mini-graph-card
+                name: Tado woonkamer
+                hours_to_show: 48
+              - entities:
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
+                type: custom:mini-graph-card
+                name: Sensor schuifpui
+                hours_to_show: 48
+            type: horizontal-stack
+      - type: vertical-stack
+        cards:
+          - type: 'custom:simple-thermostat'
+            entity: climate.voorzolder
+            step_size: 1
+            icon: 'mdi:home-roof'
+            sensors:
+              - entity: sensor.voorzolder_temperature
+                name: Voorzolder
+              - attribute: current_humidity
+                name: Luchtvochtigheid
+          - cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.voorzolder_temperature
+                    name: Temperature
+                    color: #e74c3c
+                  - entity: sensor.voorzolder_humidity
+                    name: Humidity
+                    color: #1e90ff
+                    y_axis: secondary
+                name: Voorzijde zolder (last 48 hours)
+                hours_to_show: 48
+                line_width: 3
+            title: Zolder
+            type: horizontal-stack
+      - type: vertical-stack
+        cards:
+          - type: 'custom:simple-thermostat'
+            entity: climate.achterzolder
+            step_size: 1
+            icon: 'mdi:home-roof'
+            sensors:
+              - entity: sensor.achterzolder_temperature
+                name: Achterzolder
+              - attribute: current_humidity
+                name: Luchtvochtigheid
+          - cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.achterzolder_temperature
+                    name: Temperature
+                    color: #e74c3c
+                  - entity: sensor.achterzolder_humidity
+                    name: Humidity
+                    color: #1e90ff
+                    y_axis: secondary
+                name: Achterzijde zolder (last 48 hours)
+                hours_to_show: 48
+                line_width: 3
+            title: Zolder
+            type: horizontal-stack
+    icon: "mdi:radiator"
+    title: Heating
   - badges: []
     cards:
       - cards:
@@ -260,31 +363,44 @@ views:
   - badges: []
     cards:
       - entities:
+          - entity: light.hal
           - entity: light.woonkamer
           - entity: light.eetkamer
           - entity: light.keuken
+          - entity: light.kamer_rens
+          - entity: light.kamer_maxime
           - entity: light.terras
           - entity: light.carport
         title: Light
         type: entities
       - entities:
-          - entity: automation.media_player_paused_stopped
-          - entity: automation.media_player_playing
+          - entity: automation.apple_tv_paused_stopped
+          - entity: automation.apple_tv_playing
           - entity: automation.xbox_turned_on
-          - entity: automation.notify_if_lights_are_left_on
-          - entity: automation.trigger_alarm_while_armed_away
+          - entity: automation.notify_when_lights_are_left_on
+          - entity: automation.trigger_while_armed_for_night
+          - entity: automation.alarm_disarmed
+          - entity: automation.doorbird_ring
+          - entity: automation.doorbird_motion
+          - entity: automation.doorbird_rfid
+          - entity: automation.stairway_morning
+          - entity: automation.stairway_evening
+          - entity: automation.fusebox_open
         show_header_toggle: false
         title: Automations
         type: entities
       - entities:
           - entity: zwave.aeon_labs_zw090_z_stick_gen5_eu
           - entity: zwave.aeon_labs_zw130_wallmote_quad
-          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
+          - entity: zwave.aeon_labs_zw080_siren_gen5
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
+          - entity: zwave.aeotec_limited_zwa008_door_window_sensor_7
           - entity: zwave.poly_control_danalock_v3_btze
           - entity: zwave.aeon_labs_zw141_nano_shutter
           - entity: zwave.aeon_labs_zw141_nano_shutter_2
           - entity: zwave.aeon_labs_zw141_nano_shutter_3
+          - entity: zwave.aeon_labs_zw141_nano_shutter_4
+          - entity: zwave.aeon_labs_zw141_nano_shutter_5
         title: Z-Wave
         type: entities
     icon: 'mdi:settings'
@@ -292,4 +408,7 @@ views:
 resources:
   - url: /local/custom-lovelace/weather-card/weather-card.js
     type: module
-
+  - url: /local/custom-lovelace/simple-thermostat/simple-thermostat.js
+    type: module
+  - url: /local/custom-lovelace/mini-graph-card-bundle.js
+    type: module

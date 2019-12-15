@@ -69,8 +69,7 @@ turn_on_light:
   sequence:
   - service: homeassistant.toggle
     data_template:
-      entity_id: light.spot_kek_amsterdam
+      entity_id: light.hue_lightstrip_plus_1
   - service: homeassistant.turn_off
     data_template:
       entity_id: input_boolean.visitor_ring
-

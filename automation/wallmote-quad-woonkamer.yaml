@@ -1,0 +1,111 @@
+- alias: Button 1 tap
+  initial_state: true
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 1
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+  - data:
+      entity_id: script.1549758951085
+    service: script.toggle
+- alias: Button 1 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 1
+      scene_data: 2
+  action:
+    service: light.turn_off
+    data:
+      entity_id: all
+- alias: Button 2 tap
+  initial_state: true
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 2
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+  - data:
+      entity_id: script.1549758920504
+    service: script.toggle
+- alias: Button 2 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 2
+      scene_data: 2
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data:
+      entity_id: alarm_control_panel.home_alarm
+      code: '1234'
+  - service: notify.mobile_app_iphone_x_alexander
+    data:
+      title: 'Alarm!'
+      message: 'The alarm was ARMED at {{now().strftime("%H:%M %d-%m-%Y")}}'
+      data:
+        subtitle: 'ARMED AWAY'
+- alias: Button 3 tap
+  initial_state: true
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 3
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.open_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- alias: Button 3 hold
+  initial_state: true
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 2
+      scene_id: 3
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.stop_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- alias: Button 4 tap
+  initial_state: true
+  trigger:
+  - event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_data: 0
+      scene_id: 4
+    event_type: zwave.scene_activated
+    platform: event
+  action:
+    - service: cover.close_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens
+- alias: Button 4 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad
+      scene_id: 4
+      scene_data: 2
+  action:
+    - service: cover.stop_cover
+      data:
+        entity_id: cover.rolluiken_kamer_rens

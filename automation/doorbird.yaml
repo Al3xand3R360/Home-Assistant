@@ -1,0 +1,70 @@
+############## Doorbird ###################
+# Event Catcher Automation to trigger showing Door UI in frontend via conditional card
+- alias: Doorbird Ring
+  initial_state: true
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_doorbell
+  action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.visitor_ring
+    - service: persistent_notification.create
+      data:
+        title: 'De deurbel gaat'
+        message: 'Er staat iemand voor de voordeur..'
+
+# Cancel Automation to reset input_boolean when no action was taken for 3 minutes
+- alias: Cancel Ring after 30 seconds
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: input_boolean.visitor_ring
+      from: "off"
+      to: "on"
+      for: '00:03:00'
+  action:
+    - service: homeassistant.turn_off
+      data_template:
+        entity_id: input_boolean.visitor_ring
+
+# Event Catcher automation when motion is detected
+- alias: Doorbird motion
+  initial_state: true
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_motion
+  condition:
+    - condition: state
+      entity_id:  alarm_control_panel.home_alarm
+      state: 'armed_away'
+  action:
+    - service: light.turn_on
+      data_template:
+        entity_id: light.spot_kek_amsterdam
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'Voordeur bewegingssensor'
+        message: 'Er is beweging gedetecteerd bij de voordeur om: {{now().strftime("%H:%M %d-%m-%Y")}}'
+
+# Event Catcher Automation when RFID card is scanned
+- alias: Doorbird RFID
+  trigger:
+    - platform: event
+      event_type: doorbird_front_door_rfid_card_scanned
+  action:
+    - service: alarm_control_panel.alarm_disarm
+      data:
+        entity_id: alarm_control_panel.home_alarm
+        code: '1234'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.speakers
+        volume: 0.3
+        message: 'De RFID tag is geldig, het alarm wordt uitgeschakeld.. Welkom thuis'
+        delay: '00:00:07'
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'RFID card gescanned'
+        subtitle: 'Er is een geldige RFID card herkend..'
+        message: 'Alarm is uitgeschakeld om: {{now().strftime("%H:%M %d-%m-%Y")}}'

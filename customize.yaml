@@ -5,3 +5,6 @@ media_player.mybraviatv:
 cover.rolluiken_kamer_rens:
   friendly_name: Rolluiken kamer Rens
   device_class: shutter
+cover.rolluiken_kamer_maxime:
+  friendly_name: Rolluiken kamer Maxime
+  device_class: shutter

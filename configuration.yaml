@@ -21,8 +21,7 @@ weather:
 
 # Enables the frontend
 frontend:
-  themes: !include themes.yaml
-#themes: !include_dir_merge_named themes/ 
+  themes: !include_dir_merge_named themes/ 
 
 # Set lovelace to yaml mode instead of UI
 lovelace:
@@ -36,7 +35,7 @@ config:
 # the developers to assist with development of Home Assistant.
 # For more information, please see:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
-updater:
+#updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
 
@@ -81,6 +80,7 @@ homekit:
        - media_player.xbox_one
        - media_player.mybraviatv
        - cover.rolluiken_kamer_rens
+       - cover.rolluiken_kamer_maxime
   entity_config:
     media_player.xbox_one:
       feature_list:
@@ -101,6 +101,48 @@ sensor:
       - temperature
       - windspeed
       - pressure
+
+binary_sensor:
+  - platform: template
+    sensors:
+      fuse_box_door:
+        friendly_name: "Meterkast deur"
+        device_class: door
+        value_template: >-
+          {% if is_state('sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control', '22') %}
+            open
+          {% elif is_state('sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control', '23') %}
+            closed
+          {% else %}
+            unknown
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control', '22') %}
+            mdi:door-open
+          {% elif is_state('sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control', '23') %}
+            mdi:door-closed-lock
+          {% else %}
+            mdi:alert
+          {% endif %}
+      sliding_door:
+        friendly_name: "Schuifpui"
+        device_class: door
+        value_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control', '22') %}
+            open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control', '23') %}
+            closed
+          {% else %}
+            unknown
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control', '22') %}
+            mdi:door-open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control', '23') %}
+            mdi:door-closed-lock
+          {% else %}
+            mdi:alert
+          {% endif %}
 
 # Alarm panel config
 # Example configuration.yaml entry
@@ -205,12 +247,14 @@ cover:
   - platform: group
     name: Rolluiken kamer Rens
     entities:
-      - cover.aeon_labs_zw141_nano_shutter_level
-      - cover.aeon_labs_zw141_nano_shutter_level_2
-      - cover.aeon_labs_zw141_nano_shutter_level_3
+      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam
+      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts
+      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links 
   - platform: group
     name: Rolluiken kamer Maxime
-    entities: []
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam
+      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links
 
 #SSL (LE) settings
 http:
@@ -226,5 +270,5 @@ cloud:
 zwave:
 
 group: !include groups.yaml
-automation: !include automations.yaml
+automation: !include_dir_merge_list automation/
 script: !include scripts.yaml

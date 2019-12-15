@@ -7,8 +7,14 @@
 !.gitignore
 !*.md
 !bravia.conf
-!/custom_components/
 !/www/
+!/www/*
+!/www/custom_lovelace/
+!/www/custom_lovelace/*
+!/themes/
+!/themes/*
+!/automation/
+!/automation/*
 
 # Ignore folders.
 .storage

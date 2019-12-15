@@ -1,0 +1,33 @@
+- alias: Notify when lights are left on
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      from: 'home'
+      to: 'not_home'
+  condition:
+    - condition: state
+      entity_id: group.all_lights
+      state: 'on'
+  action:
+      service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: "WARNING"
+        message: "We've detected you've left the house, some lights are still on!"
+        data:
+          subtitle: "The lights are still on"
+- alias: Fusebox open
+  trigger:
+    - platform: state
+      entity_id: sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control
+      to: '22'
+  condition:
+    - condition: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      state: 'not_home'
+  action:
+      service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: "WARNING"
+        message: "LET OP! De meterkast wordt geopend."
+        data:
+          subtitle: "Fusebox open"

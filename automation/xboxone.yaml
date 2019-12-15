@@ -1,0 +1,31 @@
+- alias: Xbox turned on
+  trigger:
+    - platform: state
+      entity_id: media_player.xbox_one
+      to: 'on'
+  action:
+    - service: script.toggle
+      entity_id: script.1549758477586
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.mybraviatv
+        source: 'HDMI 1'
+    - delay:
+        seconds: 30
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.mybraviatv
+        source: 'HDMI 1'
+
+- alias: Xbox turned off
+  trigger:
+    - platform: state
+      entity_id: media_player.xbox_one
+      to: 'off'
+  action:
+    - service: script.toggle
+      entity_id: script.1549758920504 
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.mybraviatv
+        source: 'NPO 1 HD'

@@ -1,0 +1,5 @@
+3rd_floor_thermostats:
+  name: Zolder thermostaten
+  entities:
+    - climate.voorzolder
+    - climate.achterzolder

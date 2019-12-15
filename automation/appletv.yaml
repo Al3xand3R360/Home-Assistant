@@ -1,0 +1,22 @@
+- alias: Apple TV paused/stopped
+  trigger:
+    - platform: state
+      entity_id: media_player.woonkamer
+      to: 'paused'
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+      service: script.toggle
+      entity_id: script.1549758920504
+- alias: Apple TV playing
+  trigger:
+    - platform: state
+      entity_id: media_player.woonkamer
+      to: 'playing'
+  condition:
+    - condition: sun
+      after: sunset
+  action:
+      service: script.toggle
+      entity_id: script.1549758477586
