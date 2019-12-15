@@ -11,6 +11,10 @@
 !/www/*
 !/www/custom-lovelace/
 !/www/custom-lovelace/*
+!/www/custom-lovelace/simple-thermostat/
+!/www/custom-lovelace/simple-thermostat/*
+!/www/custom-lovelace/weather-card/
+!/www/custom-lovelace/weather-card/*
 !/themes/
 !/themes/*
 !/automation/
