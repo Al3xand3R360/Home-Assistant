@@ -2,8 +2,9 @@ title: Home
 views:
   - badges:
       - device_tracker.iphone_x_alexander_2
+      - device_tracker.iphone
       - sensor.battery_level
-      - sensor.battery_state
+      - alarm_control_panel.home_alarm
       - sun.sun
     cards:
       - cards:
@@ -30,6 +31,18 @@ views:
             icon: 'mdi:sofa'
             name: Tado Woonkamer
             type: sensor
+          - entity: sensor.woonkamer_humidity
+            graph: line
+            icon: 'mdi:sofa'
+            name: Humidity woonkamer
+            type: sensor
+        type: horizontal-stack
+      - cards:
+          - entity: sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
+            graph: line
+            icon: 'mdi:door'
+            name: Sensor voordeur
+            type: sensor
           - entity: sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
             graph: line
             icon: 'mdi:door'
@@ -37,41 +50,30 @@ views:
             type: sensor
         type: horizontal-stack
       - cards:
-          - entity: sensor.br_humidity_2
-            graph: line
-            icon: 'mdi:apple-icloud'
-            name: Humidity buiten
-            type: sensor
-          - entity: sensor.woonkamer_humidity
-            graph: line
-            icon: 'mdi:sofa'
-            name: Humidity woonkamer
-            type: sensor
-        title: Luchtvochtigheid
+          - entities: []
+            entity: media_player.mybraviatv
+            hold_action:
+              action: more-info
+            state_image:
+              'off': /local/tv_off-800.png
+              'on': /local/tv_on-800.png
+            tap_action:
+              action: toggle
+            title: Sony Bravia
+            type: picture-glance
+          - entities: []
+            entity: media_player.xbox_one
+            hold_action:
+              action: more-info
+            state_image:
+              'off': /local/xbox_off-800.png
+              'on': /local/xbox_on-800.png
+              'unknown': /local/xbox_on-800.png
+            tap_action:
+              action: toggle
+            title: Xbox One X
+            type: picture-glance
         type: horizontal-stack
-      - entities: []
-        entity: media_player.mybraviatv
-        hold_action:
-          action: more-info
-        state_image:
-          'off': /local/tv_off.jpg
-          'on': /local/tv_on.jpg
-        tap_action:
-          action: toggle
-        title: Sony Bravia
-        type: picture-glance
-      - entities: []
-        entity: media_player.xbox_one
-        hold_action:
-          action: more-info
-        state_image:
-          'off': /local/xbox_off.jpg
-          'on': /local/xbox_on.jpg
-          unknown: /local/xbox_on.jpg
-        tap_action:
-          action: toggle
-        title: Xbox One X
-        type: picture-glance
       - entities: []
         entity: lock.poly_control_danalock_v3_btze_locked
         state_image:
@@ -97,6 +99,7 @@ views:
   - badges:
       - camera.front_door_last_motion
       - camera.front_door_last_ring
+      - binary_sensor.front_door
       - binary_sensor.fuse_box_door
       - binary_sensor.sliding_door
       - sensor.br_symbol_2
@@ -222,11 +225,11 @@ views:
             icon: 'mdi:stove'
             tap_action:
               action: toggle
-          - entity: light.hue_color_pendant_down_1
+          - entity: light.overloop
             hold_action:
               action: more-info
-            icon: 'mdi:ceiling-light'
-            name: Kookeiland
+            icon: 'mdi:wall-sconce-flat'
+            name: Overloop
             tap_action:
               action: toggle
           - entity: light.kamer_rens
@@ -289,6 +292,18 @@ views:
                   - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
                 type: custom:mini-graph-card
                 name: Sensor schuifpui
+                hours_to_show: 48
+            type: horizontal-stack
+          - cards:
+              - entities: 
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
+                type: custom:mini-graph-card
+                name: Sensor Voordeur
+                hours_to_show: 48
+              - entities:
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
+                type: custom:mini-graph-card
+                name: Sensor Bijkeuken
                 hours_to_show: 48
             type: horizontal-stack
       - type: vertical-stack
@@ -367,6 +382,7 @@ views:
           - entity: light.woonkamer
           - entity: light.eetkamer
           - entity: light.keuken
+          - entity: light.overloop
           - entity: light.kamer_rens
           - entity: light.kamer_maxime
           - entity: light.terras
@@ -374,25 +390,14 @@ views:
         title: Light
         type: entities
       - entities:
-          - entity: automation.apple_tv_paused_stopped
-          - entity: automation.apple_tv_playing
-          - entity: automation.xbox_turned_on
-          - entity: automation.notify_when_lights_are_left_on
-          - entity: automation.trigger_while_armed_for_night
-          - entity: automation.alarm_disarmed
-          - entity: automation.doorbird_ring
-          - entity: automation.doorbird_motion
-          - entity: automation.doorbird_rfid
-          - entity: automation.stairway_morning
-          - entity: automation.stairway_evening
-          - entity: automation.fusebox_open
-        show_header_toggle: false
-        title: Automations
-        type: entities
-      - entities:
           - entity: zwave.aeon_labs_zw090_z_stick_gen5_eu
+          - entity: zwave.aeon_labs_zw117_range_extender_6
+          - entity: zwave.aeon_labs_zw129_wallmote_duo
           - entity: zwave.aeon_labs_zw130_wallmote_quad
+          - entity: zwave.aeon_labs_zw130_wallmote_quad_2
+          - entity: zwave.aeon_labs_zw130_wallmote_quad_3
           - entity: zwave.aeon_labs_zw080_siren_gen5
+          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
           - entity: zwave.aeotec_limited_zwa008_door_window_sensor_7
           - entity: zwave.poly_control_danalock_v3_btze

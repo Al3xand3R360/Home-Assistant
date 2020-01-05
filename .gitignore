@@ -17,8 +17,8 @@
 !/www/custom-lovelace/weather-card/*
 !/themes/
 !/themes/*
-!/automation/
-!/automation/*
+!/automations/
+!/automations/*
 
 # Ignore folders.
 .storage

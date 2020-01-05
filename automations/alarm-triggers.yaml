@@ -1,0 +1,24 @@
+##### Alarm TRIGGER automations ########################
+- alias: Triggers to sound alarm
+  trigger:
+    - platform: state
+      entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control # Schuifpui wordt geopened
+      to: '22'
+    - platform: state
+      entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2 # Voordeur wordt geopend
+      to: '22'
+    - platform: state
+      entity_id: sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control # Meterkast wordt geopend
+      to: '22'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: 'armed_away'
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: 'armed_night'
+  action:
+    - service: alarm_control_panel.alarm_trigger
+      entity_id: alarm_control_panel.home_alarm

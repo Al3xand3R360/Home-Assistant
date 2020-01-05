@@ -76,6 +76,10 @@ homekit:
   auto_start: False
   filter:
     include_entities:
+       - alarm_control_panel.home_alarm
+       - zwave.aeon_labs_zw080_siren_gen5
+       - switch.aeon_labs_zw080_siren_gen5_switch_3
+       - binary_sensor.sliding_door
        - sensor.br_temperature_2
        - media_player.xbox_one
        - media_player.mybraviatv
@@ -85,6 +89,8 @@ homekit:
     media_player.xbox_one:
       feature_list:
          - feature: on_off
+    alarm_control_panel.home_alarm:
+      code: !secret alarm_code
 
 # DuckDNS for remote access to HASS
 duckdns:
@@ -143,13 +149,32 @@ binary_sensor:
           {% else %}
             mdi:alert
           {% endif %}
+      front_door:
+        friendly_name: "Voordeur"
+        device_class: door
+        value_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2', '22') %}
+            open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2', '23') %}
+            closed
+          {% else %}
+            unknown
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2', '22') %}
+            mdi:door-open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2', '23') %}
+            mdi:door-closed-lock
+          {% else %}
+            mdi:alert
+          {% endif %}
 
 # Alarm panel config
 # Example configuration.yaml entry
 alarm_control_panel:
   - platform: manual
     name: Home Alarm
-    code: 1234
+    code: !secret alarm_code
     pending_time: 5
     delay_time: 5
     trigger_time: 5
@@ -255,6 +280,14 @@ cover:
     entities:
       - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam
       - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links
+  - platform: group
+    name: Alle rolluiken
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam Maxime
+      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links Maxime
 
 #SSL (LE) settings
 http:
@@ -270,5 +303,5 @@ cloud:
 zwave:
 
 group: !include groups.yaml
-automation: !include_dir_merge_list automation/
+automation: !include_dir_merge_list automations/
 script: !include scripts.yaml

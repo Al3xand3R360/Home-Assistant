@@ -20,8 +20,8 @@
   trigger:
     - platform: state
       entity_id: input_boolean.visitor_ring
-      from: "off"
-      to: "on"
+      from: 'off'
+      to: 'on'
       for: '00:03:00'
   action:
     - service: homeassistant.turn_off
@@ -56,7 +56,7 @@
     - service: alarm_control_panel.alarm_disarm
       data:
         entity_id: alarm_control_panel.home_alarm
-        code: '1234'
+        code: !secret alarm_code
     - service: script.sonos_say
       data:
         sonos_entity: media_player.speakers

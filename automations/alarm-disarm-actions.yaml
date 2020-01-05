@@ -1,0 +1,24 @@
+##### Alarm DISARM automations #########################
+- alias: Actions when alarm is disarmed
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: 'disarmed'
+  action:
+    # Turn off siren
+    - service: switch.turn_off
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+    # Inform Alexander that alarm is disarmed
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'Alarm'
+        message: 'The alarm is DISARMED at {{now().strftime("%H:%M %d-%m-%Y")}}'
+        data:
+          subtitle: 'DISARMED'
+    # Give voice confirmation that alarm is disabled
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.speakers
+        volume: 0.4
+        delay: '00:00:04'
+        message: 'Het alarm is uitgeschakeld'

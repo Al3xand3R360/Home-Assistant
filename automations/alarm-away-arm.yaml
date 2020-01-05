@@ -1,0 +1,40 @@
+##### Automatically arm alarm to Away-mode ########################
+- alias: Automatically arm alarm to Away-mode
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      to: 'not_home'
+    - platform: state
+      entity_id: device_tracker.iphone
+      to: 'not_home'
+  condition: # by default all conditions have to be true
+    - condition: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      state: 'not_home'
+    - condition: state
+      entity_id: device_tracker.iphone
+      state: 'not_home'
+    - condition: or
+      conditions:
+        - condition: time
+          weekday:
+            - mon
+          before: '09:00:00'
+          after: '20:00:00'
+        - condition: time
+          weekday:
+            - tue
+            - wed
+            - thu
+            - fri
+            - sat
+            - sun
+  action:
+    - service: alarm_control_panel.alarm_arm_away
+      entity_id: alarm_control_panel.home_alarm
+    - service: notify.mobile_app_iphone_x_alexander
+      data:
+        title: 'Alarm'
+        message: 'The alarm is ARMED at {{now().strftime("%H:%M %d-%m-%Y")}}'
+        data:
+          subtitle: 'ARMED'

@@ -1,0 +1,21 @@
+##### Automatically disarm alarm ########################
+- alias: Automatically disarm alarm when comming home
+  trigger:
+    - platform: state
+      entity_id: device_tracker.iphone_x_alexander_2
+      to: 'home'
+    - platform: state
+      entity_id: device_tracker.iphone
+      to: 'home'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: 'armed_away'
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: 'armed_night'
+  action:
+    - service: alarm_control_panel.alarm_disarm
+      entity_id: alarm_control_panel.home_alarm

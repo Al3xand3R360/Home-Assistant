@@ -1,0 +1,108 @@
+- alias: Button 1 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 1
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Terras"
+      scene_name: "Helder"
+- alias: Button 1 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 1
+      scene_data: 2
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.terras
+- alias: Button 2 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 2
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Keuken"
+      scene_name: "Helder"
+- alias: Button 2 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 2
+      scene_data: 2
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.keuken
+- alias: Button 3 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 3
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Eetkamer"
+      scene_name: "Helder"
+- alias: Button 3 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 3
+      scene_data: 2
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.eetkamer
+- alias: Button 4 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 4
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Woonkamer"
+      scene_name: "TV kijken"
+- alias: Button 4 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 4
+      scene_data: 2
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.woonkamer

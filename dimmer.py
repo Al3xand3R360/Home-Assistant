@@ -19,7 +19,7 @@ def extract_value(line):
 event = 'script.dimmer'
 
 ##HA information
-URI = 'https://<SECRET>/api/services/script/turn_on'
+URI = '<SECRET>'
 TOKEN = '<SECRET>'
 OZW_LOG = '/home/homeassistant/.homeassistant/OZW_Log.txt'
 
@@ -45,7 +45,7 @@ while True:
     nodeID = line.split(',')[1].strip().lower()
     if "node002" in nodeID:
       node = "Livingroom"
-    if "node003" in nodeID:
+    if "node016" in nodeID:
       node = "Kitchen"
     
     value9 = extract_value(line)
@@ -78,16 +78,22 @@ while True:
   if node is not None:
     if "Livingroom" in node:
       if "1" in button:
-        light_id = "light.livingroom_lights"
+        light_id = "light.woonkamer"
       if "2" in button:
-        light_id = "light.lamp_in_keuken"
+        light_id = "light.woonkamer"
       if "3" in button:
-        light_id = " "
+        light_id = "light.eetkamer"
       if "4" in button:
-        light_id = " "
+        light_id = "light.woonkamer"
     elif "Kitchen" in node:
       if "1" in button:
-        light_id = "light.lamp_in_keuken"
+        light_id = "light.eetkamer"
+      if "2" in button:
+        light_id = "light.keuken"
+      if "3" in button:
+        light_id = "light.woonkamer"
+      if "4" in button:
+        light_id = "light.terras"
 
   if __debug__:
       print(URI)
