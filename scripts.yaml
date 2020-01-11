@@ -113,7 +113,7 @@ turn_off_indoor_lights:
   - service: light.turn_off
     data_template:
       entity_id: light.hal
-  - service: liyght.turn_off
+  - service: light.turn_off
     data_template:
       entity_id: light.woonkamer
   - service: light.turn_off
@@ -122,7 +122,7 @@ turn_off_indoor_lights:
   - service: light.turn_off
     data_template:
       entity_id: light.keuken
-  - service: liyght.turn_off
+  - service: light.turn_off
     data_template:
       entity_id: light.kamer_rens
   - service: light.turn_off
@@ -167,12 +167,17 @@ goodnight:
       data:
         sonos_entity: media_player.speakers
         volume: 0.2
-        message: 'Weltrusten, slaap lekker'
+        message: 'Weltrusten'
     # Alarm arm for night
     - service: alarm_control_panel.alarm_arm_night
       data:
         entity_id: alarm_control_panel.home_alarm
         code: !secret alarm_code
+    # Turn off stairs light after 1 minute
+    - delay: '00:01:00'
+    - service: light.turn_off
+      data_template:
+        entity_id: light.hal
 
 goodmorning:
   sequence:

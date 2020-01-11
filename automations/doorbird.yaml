@@ -36,16 +36,19 @@
       event_type: doorbird_front_door_motion
   condition:
     - condition: state
-      entity_id:  alarm_control_panel.home_alarm
-      state: 'armed_away'
+      entity_id: light.buiten 
+      state: 'on'
   action:
     - service: light.turn_on
-      data_template:
-        entity_id: light.spot_kek_amsterdam
-    - service: notify.mobile_app_iphone_x_alexander
       data:
-        title: 'Voordeur bewegingssensor'
-        message: 'Er is beweging gedetecteerd bij de voordeur om: {{now().strftime("%H:%M %d-%m-%Y")}}'
+        entity_id: light.buiten
+        transition: 2
+        brightness: 255
+    - delay: '00:01:30'
+    - service: hue.hue_activate_scene
+      data:
+        group_name: 'Buiten'
+        scene_name: 'Huis uitlichten'
 
 # Event Catcher Automation when RFID card is scanned
 - alias: Doorbird RFID
@@ -61,10 +64,10 @@
       data:
         sonos_entity: media_player.speakers
         volume: 0.3
-        message: 'De RFID tag is geldig, het alarm wordt uitgeschakeld.. Welkom thuis'
-        delay: '00:00:07'
+        message: 'RFID tag is geldig.. Welkom thuis'
+        delay: '00:00:03'
     - service: notify.mobile_app_iphone_x_alexander
       data:
         title: 'RFID card gescanned'
-        subtitle: 'Er is een geldige RFID card herkend..'
-        message: 'Alarm is uitgeschakeld om: {{now().strftime("%H:%M %d-%m-%Y")}}'
+        subtitle: 'RFID card herkend..'
+        message: 'Card gescanned om: {{now().strftime("%H:%M %d-%m-%Y")}}'

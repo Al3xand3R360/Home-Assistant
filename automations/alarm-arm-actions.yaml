@@ -1,0 +1,10 @@
+##### Alarm ARM automations #########################
+- alias: Actions when alarm is armed
+  trigger:
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: 'armed_away'
+  action:
+    # Lock the door when alarm is armed
+    - service: lock.lock
+      entity_id: lock.poly_control_danalock_v3_btze_locked

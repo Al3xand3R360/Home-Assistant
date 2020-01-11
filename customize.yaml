@@ -8,3 +8,5 @@ cover.rolluiken_kamer_rens:
 cover.rolluiken_kamer_maxime:
   friendly_name: Rolluiken kamer Maxime
   device_class: shutter
+alarm_control_panel.home_alarm:
+  friendly_name: Beveiligingssysteem

@@ -31,7 +31,9 @@
             - sun
   action:
     - service: alarm_control_panel.alarm_arm_away
-      entity_id: alarm_control_panel.home_alarm
+      data:
+        entity_id: alarm_control_panel.home_alarm
+        code: !secret alarm_code
     - service: notify.mobile_app_iphone_x_alexander
       data:
         title: 'Alarm'

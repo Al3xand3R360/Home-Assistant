@@ -102,7 +102,7 @@ views:
       - binary_sensor.front_door
       - binary_sensor.fuse_box_door
       - binary_sensor.sliding_door
-      - sensor.br_symbol_2
+      - binary_sensor.scullery_door
     cards:
       - columns: 2
         entities:
@@ -246,11 +246,11 @@ views:
             name: Kamer Maxime
             tap_action:
               action: toggle
-          - entity: light.terras
+          - entity: light.buiten
             hold_action:
               action: more-info
-            icon: 'mdi:home-roof'
-            name: Terras
+            icon: 'mdi:tree'
+            name: Buiten
             tap_action:
               action: toggle
           - entity: light.carport
@@ -258,6 +258,13 @@ views:
               action: more-info
             icon: 'mdi:car'
             name: Carport
+            tap_action:
+              action: toggle
+          - entity: light.terras
+            hold_action:
+              action: more-info
+            icon: 'mdi:home-roof'
+            name: Terras
             tap_action:
               action: toggle
         show_icon: true
@@ -301,7 +308,7 @@ views:
                 name: Sensor Voordeur
                 hours_to_show: 48
               - entities:
-                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_3
                 type: custom:mini-graph-card
                 name: Sensor Bijkeuken
                 hours_to_show: 48
@@ -399,6 +406,7 @@ views:
           - entity: zwave.aeon_labs_zw080_siren_gen5
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
+          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_3
           - entity: zwave.aeotec_limited_zwa008_door_window_sensor_7
           - entity: zwave.poly_control_danalock_v3_btze
           - entity: zwave.aeon_labs_zw141_nano_shutter

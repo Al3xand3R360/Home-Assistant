@@ -1,0 +1,55 @@
+- alias: Button 1 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw129_wallmote_duo
+      scene_id: 1
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Hal"
+      scene_name: "Gedimd"
+- alias: Button 1 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw129_wallmote_duo
+      scene_id: 1
+      scene_data: 2
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    data:
+      entity_id: alarm_control_panel.home_alarm
+      code: !secret alarm_code
+- alias: Button 2 tap
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw129_wallmote_duo
+      scene_id: 2
+      scene_data: 0
+  action:
+  - service: hue.hue_activate_scene
+    data:
+      group_name: "Woonkamer"
+      scene_name: "TV kijken"
+- alias: Button 2 hold
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw129_wallmote_duo
+      scene_id: 2
+      scene_data: 2
+  action:
+  - service: script.turn_off_indoor_lights
+    data:
+      entity_id: script.turn_off_indoor_lights

@@ -19,6 +19,6 @@
     - service: script.sonos_say
       data:
         sonos_entity: media_player.speakers
-        volume: 0.4
+        volume: 0.2
         delay: '00:00:04'
         message: 'Het alarm is uitgeschakeld'

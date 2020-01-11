@@ -8,6 +8,9 @@
       entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_2 # Voordeur wordt geopend
       to: '22'
     - platform: state
+      entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_3 # Bijkeuken zijdeur wordt geopend
+      to: '22'
+    - platform: state
       entity_id: sensor.aeotec_limited_zwa008_door_window_sensor_7_access_control # Meterkast wordt geopend
       to: '22'
   condition:
