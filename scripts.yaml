@@ -129,6 +129,16 @@ turn_off_indoor_lights:
     data_template:
       entity_id: light.kamer_maxime
 
+open_and_disarm:
+  sequence:
+  - service: alarm_control_panel.alarm_disarm
+    data_template:
+      entity_id: alarm_control_panel.home_alarm
+      code: !secret alarm_code
+  - service: lock.unlock
+    data_template:
+      entity_id: lock.poly_control_danalock_v3_btze_locked
+
 goodnight:
   sequence:
     #Turn off lights

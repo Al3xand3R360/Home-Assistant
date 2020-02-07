@@ -10,8 +10,8 @@
   action:
   - service: hue.hue_activate_scene
     data:
-      group_name: "Hal"
-      scene_name: "Gedimd"
+      group_name: "Woonkamer"
+      scene_name: "TV kijken"
 - alias: Button 1 hold
   initial_state: true
   trigger:
@@ -36,10 +36,9 @@
       scene_id: 2
       scene_data: 0
   action:
-  - service: hue.hue_activate_scene
+  - service: script.turn_off_indoor_lights
     data:
-      group_name: "Woonkamer"
-      scene_name: "TV kijken"
+      entity_id: script.turn_off_indoor_lights
 - alias: Button 2 hold
   initial_state: true
   trigger:

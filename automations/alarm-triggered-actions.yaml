@@ -42,10 +42,10 @@
       data:
         sonos_entity: media_player.speakers
         volume: 0.5
-        message: 'ATTENTIE!! Inbraak gedetecteerd, over 10 seconden gaat het alarm af.'
+        message: 'ATTENTIE!! Inbraak gedetecteerd, over 5 seconden gaat het alarm af.'
     # Wait for 15 seconds and sound the alarm
     - delay:
-        seconds: 15
+        seconds: 5
     - service: switch.turn_on
       data:
         entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3

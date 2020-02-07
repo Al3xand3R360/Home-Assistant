@@ -39,12 +39,16 @@
       entity_id: light.buiten 
       state: 'on'
   action:
-    - service: light.turn_on
+          #    - service: light.turn_on
+          #      data:
+          #        entity_id: light.buiten
+          #        transition: 1
+          #        brightness: 255
+    - service: hue.hue_activate_scene
       data:
-        entity_id: light.buiten
-        transition: 2
-        brightness: 255
-    - delay: '00:01:30'
+        group_name: 'Buiten'
+        scene_name: 'Helder'
+    - delay: '00:01:00'
     - service: hue.hue_activate_scene
       data:
         group_name: 'Buiten'

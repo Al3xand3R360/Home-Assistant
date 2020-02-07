@@ -1,4 +1,5 @@
 title: Home
+
 views:
   - badges:
       - device_tracker.iphone_x_alexander_2
@@ -49,6 +50,15 @@ views:
             name: Sensor schuifpui
             type: sensor
         type: horizontal-stack
+      - entities: []
+        entity: lock.poly_control_danalock_v3_btze_locked
+        state_image:
+          locked: /local/danalock_closed.png
+          unlocked: /local/danalock_open.png
+        tap_action:
+          action: more-info
+        title: Voordeur
+        type: picture-glance
       - cards:
           - entities: []
             entity: media_player.mybraviatv
@@ -74,15 +84,6 @@ views:
             title: Xbox One X
             type: picture-glance
         type: horizontal-stack
-      - entities: []
-        entity: lock.poly_control_danalock_v3_btze_locked
-        state_image:
-          locked: /local/danalock_closed.jpg
-          unlocked: /local/danalock_open.jpg
-        tap_action:
-          action: more-info
-        title: Voordeur
-        type: picture-glance
     icon: 'mdi:home'
     path: default_view
     title: Home
@@ -119,7 +120,7 @@ views:
             name: Open Frontdoor
             tap_action:
               action: call-service
-              service: lock.unlock
+              service: script.open_and_disarm
             type: entity-button
           - entity: lock.poly_control_danalock_v3_btze_locked
             icon: 'mdi:door-closed-lock'
@@ -334,8 +335,8 @@ views:
                     name: Humidity
                     color: #1e90ff
                     y_axis: secondary
-                name: Voorzijde zolder (last 48 hours)
-                hours_to_show: 48
+                name: Voorzijde zolder (last 72 hours)
+                hours_to_show: 72
                 line_width: 3
             title: Zolder
             type: horizontal-stack
@@ -360,8 +361,8 @@ views:
                     name: Humidity
                     color: #1e90ff
                     y_axis: secondary
-                name: Achterzijde zolder (last 48 hours)
-                hours_to_show: 48
+                name: Achterzijde zolder (last 72 hours)
+                hours_to_show: 72
                 line_width: 3
             title: Zolder
             type: horizontal-stack
@@ -371,13 +372,20 @@ views:
     cards:
       - cards:
           - entity: media_player.mybraviatv
-            type: media-control
+            type: custom:mini-media-player
+            hide:
+              volume: true
           - entity: media_player.speakers
-            type: media-control
+            type: custom:mini-media-player 
+            icon: 'mdi:speaker'
           - entity: media_player.xbox_one
-            type: media-control
+            type: custom:mini-media-player
+            icon: 'mdi:xbox'
           - entity: media_player.woonkamer
-            type: media-control
+            type: custom:mini-media-player
+            icon: 'mdi:airplay'
+            hide:
+              volume: true
         type: vertical-stack
     icon: 'mdi:airplay'
     panel: false
@@ -393,6 +401,7 @@ views:
           - entity: light.kamer_rens
           - entity: light.kamer_maxime
           - entity: light.terras
+          - entity: light.buiten
           - entity: light.carport
         title: Light
         type: entities
@@ -418,6 +427,7 @@ views:
         type: entities
     icon: 'mdi:settings'
     title: Settings
+
 resources:
   - url: /local/custom-lovelace/weather-card/weather-card.js
     type: module
@@ -425,3 +435,20 @@ resources:
     type: module
   - url: /local/custom-lovelace/mini-graph-card-bundle.js
     type: module
+  - url: /local/custom-lovelace/mini-media-player-bundle.js?v=1.5.2
+    type: module
+  - url: /local/custom-lovelace/compact-custom-header/custom-header.js?v=0.0.1
+    type: module
+
+custom_header:
+  background: 'rgba(155, 155, 155, 0.25)'
+  swipe_animate: fade
+  #  swipe_prevent_default: true
+  swipe_prevent_default: false
+  compact_mode: true
+  voice_hide: true
+  #  button_text:
+  #    options: '{{ hours24 }}:{{ minutesLZ }}'
+
+background: var(--background-image)
+
