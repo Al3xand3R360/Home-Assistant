@@ -109,6 +109,7 @@ sensor:
       - pressure
 
 binary_sensor:
+  - platform: huesensor
   - platform: template
     sensors:
       fuse_box_door:
@@ -251,6 +252,8 @@ doorbird:
         - doorbell
         - motion
         - rfid_card_scanned
+
+stream:
 
 camera:
   - platform: doorbird

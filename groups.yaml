@@ -3,3 +3,9 @@
   entities:
     - climate.voorzolder
     - climate.achterzolder
+
+hue_motion:
+  name: Hue motions sensoren
+  entities:
+    - binary_sensor.hue_motion_sensor_motion_overloop
+    - binary_sensor.hue_motion_motion_keuken

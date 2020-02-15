@@ -128,6 +128,8 @@ views:
             tap_action:
               action: call-service
               service: lock.lock
+              service_data:
+                entity_id: lock.poly_control_danalock_v3_btze_locked
             type: entity-button
         type: horizontal-stack
       - card:
@@ -143,6 +145,8 @@ views:
                   tap_action:
                     action: call-service
                     service: lock.unlock
+                    service_data:
+                      entity_id: lock.poly_control_danalock_v3_btze_locked
                   theme: Backend-selected
                   type: entity-button
                 - entity: input_boolean.visitor_ring
@@ -166,13 +170,13 @@ views:
   - badges: []
     cards:
       - cards:
-          - entity: group.all_lights
-            icon: 'mdi:lightbulb-outline'
-            icon_height: 153px
+          - entity: script.turn_off_indoor_lights
+            icon: 'mdi:lightbulb-group-off-outline'
+            icon_height: 204.34px
             name: Alle lampen uit
             tap_action:
               action: call-service
-              service: light.turn_off
+              service: script.turn_off_downstair_lights
             type: entity-button
           - entity: light.woonkamer
             name: Dimmer
@@ -181,7 +185,7 @@ views:
       - entities:
           - entity: script.1549758951085
             icon: 'mdi:lightbulb-on-outline'
-            name: Alle lampen aan
+            name: Helder
             tap_action:
               action: toggle
           - entity: script.1549758920504
@@ -284,8 +288,8 @@ views:
             step_size: 1
             icon: 'mdi:sofa'
             sensors:
-              - entity: sensor.woonkamer_temperature
-                name: Tado
+              - entity: sensor.hue_motion_sensor_1_temperature_2
+                name: Keuken
               - entity: sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
                 name: Schuifpui
               - attribute: current_humidity
@@ -392,6 +396,11 @@ views:
     title: Mediaplayers
   - badges: []
     cards:
+      - entities:
+          - entity: binary_sensor.hue_motion_motion_keuken
+          - entity: binary_sensor.hue_motion_sensor_motion_overloop
+        title: Hue motion sensors
+        type: entities
       - entities:
           - entity: light.hal
           - entity: light.woonkamer

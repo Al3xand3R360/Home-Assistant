@@ -2,6 +2,7 @@
   trigger:
     - platform: state
       entity_id: media_player.xbox_one
+      from: 'off'
       to: 'on'
   action:
     - service: script.toggle

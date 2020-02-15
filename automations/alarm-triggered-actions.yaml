@@ -5,6 +5,15 @@
       entity_id: alarm_control_panel.home_alarm
       to: 'triggered'
   action:
+    # Give voice warning that alarm is triggered
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.speakers
+        volume: 0.5
+        message: 'ATTENTIE!! Inbraak gedetecteerd, over 5 seconden gaat het alarm af.'
+    # Wait for 15 seconds and sound the alarm
+    - delay:
+        seconds: 10
     # Send notifications to Alexander and Corinne
     - service: notify.mobile_app_iphone_x_alexander
       data:
@@ -37,15 +46,6 @@
         rgb_color: [255,0,0]
         brightness: 255
         flash: long
-    # Give voice warning that alarm is triggered
-    - service: script.sonos_say
-      data:
-        sonos_entity: media_player.speakers
-        volume: 0.5
-        message: 'ATTENTIE!! Inbraak gedetecteerd, over 5 seconden gaat het alarm af.'
-    # Wait for 15 seconds and sound the alarm
-    - delay:
-        seconds: 5
     - service: switch.turn_on
       data:
         entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3

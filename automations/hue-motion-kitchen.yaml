@@ -1,0 +1,54 @@
+- alias: Turn on kitchen light on movement when eetkamer is ocupied
+  trigger:
+    platform: state
+    entity_id: binary_sensor.hue_motion_motion_keuken
+    to: 'on'
+  condition:
+          #    - condition: state
+          #      entity_id: sun.sun
+          #      state: 'below_horizon'
+    - condition: template
+      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
+    - condition: state
+      entity_id: light.eetkamer
+      state: 'on'
+  action:
+    service: hue.hue_activate_scene
+    data:
+      group_name: 'Keuken'
+      scene_name: 'Helder'
+
+- alias: Turn on kitchen light on movement when eetkamer is empty
+  trigger:
+    platform: state
+    entity_id: binary_sensor.hue_motion_motion_keuken
+    to: 'on'
+  condition:
+          #    - condition: state
+          #      entity_id: sun.sun
+          #      state: 'below_horizon'
+    - condition: template
+      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
+    - condition: state
+      entity_id: light.keuken
+      state: 'off'
+  action:
+    service: hue.hue_activate_scene
+    data:
+      group_name: 'Keuken'
+      scene_name: 'Gedimd'
+
+- alias: Turn off kitchen light 3 minutes after last movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.hue_motion_motion_keuken
+    to: 'off'
+    for:
+      minutes: 3
+  condition:
+    condition: state
+    entity_id: light.eetkamer
+    state: 'off'
+  action:
+    service: light.turn_off
+    entity_id: light.keuken
