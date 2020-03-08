@@ -4,9 +4,6 @@
     entity_id: binary_sensor.hue_motion_motion_keuken
     to: 'on'
   condition:
-          #    - condition: state
-          #      entity_id: sun.sun
-          #      state: 'below_horizon'
     - condition: template
       value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
     - condition: state
@@ -24,9 +21,6 @@
     entity_id: binary_sensor.hue_motion_motion_keuken
     to: 'on'
   condition:
-          #    - condition: state
-          #      entity_id: sun.sun
-          #      state: 'below_horizon'
     - condition: template
       value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
     - condition: state
@@ -46,9 +40,11 @@
     for:
       minutes: 3
   condition:
-    condition: state
-    entity_id: light.eetkamer
-    state: 'off'
+    - condition: template
+      value_template: "{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.hue_motion_motion_keuken.last_changed) > 180  }}"
+    - condition: state
+      entity_id: light.eetkamer
+      state: 'off'
   action:
     service: light.turn_off
     entity_id: light.keuken

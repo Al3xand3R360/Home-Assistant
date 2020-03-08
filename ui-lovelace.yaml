@@ -172,7 +172,7 @@ views:
       - cards:
           - entity: script.turn_off_indoor_lights
             icon: 'mdi:lightbulb-group-off-outline'
-            icon_height: 204.34px
+            icon_height: 165px
             name: Alle lampen uit
             tap_action:
               action: call-service
@@ -317,6 +317,32 @@ views:
                 type: custom:mini-graph-card
                 name: Sensor Bijkeuken
                 hours_to_show: 48
+            type: horizontal-stack
+      - type: vertical-stack
+        cards:
+          - type: 'custom:simple-thermostat'
+            entity: climate.1e_verdieping
+            step_size: 1
+            icon: 'mdi:home-roof'
+            sensors:
+              - entity: sensor.1e_verdieping_temperature
+                name: 1e Verdieping
+              - attribute: current_humidity
+                name: Luchtvochtigheid
+          - cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.1e_verdieping_temperature
+                    name: Temperature
+                    color: #e74c3c
+                  - entity: sensor.1e_verdieping_humidity
+                    name: Humidity
+                    color: #1e90ff
+                    y_axis: secondary
+                name: 1e Verdieping (last 72 hours)
+                hours_to_show: 72
+                line_width: 3
+            title: 1e Verdieping
             type: horizontal-stack
       - type: vertical-stack
         cards:
