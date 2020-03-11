@@ -19,8 +19,8 @@ def extract_value(line):
 event = 'script.dimmer'
 
 ##HA information
-URI = '<SECRET>'
-TOKEN = '<SECRET>'
+URI = ''
+TOKEN = ''
 OZW_LOG = '/home/homeassistant/.homeassistant/OZW_Log.txt'
 
 debug = False

@@ -78,6 +78,8 @@ homekit:
     include_entities:
        - alarm_control_panel.home_alarm
        - zwave.aeon_labs_zw080_siren_gen5
+       - zwave.aeon_labs_zw080_siren_gen5_2
+       - switch.aeon_labs_zw080_siren_gen5_switch
        - switch.aeon_labs_zw080_siren_gen5_switch_3
        - binary_sensor.sliding_door
        - sensor.br_temperature_2

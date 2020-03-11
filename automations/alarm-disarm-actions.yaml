@@ -5,9 +5,11 @@
       entity_id: alarm_control_panel.home_alarm
       to: 'disarmed'
   action:
-    # Turn off siren
+    # Turn off sirens
     - service: switch.turn_off
       entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+    - service: switch.turn_off
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch
     # Inform Alexander that alarm is disarmed
     - service: notify.mobile_app_iphone_x_alexander
       data:

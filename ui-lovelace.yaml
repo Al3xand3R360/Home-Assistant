@@ -448,6 +448,7 @@ views:
           - entity: zwave.aeon_labs_zw130_wallmote_quad_2
           - entity: zwave.aeon_labs_zw130_wallmote_quad_3
           - entity: zwave.aeon_labs_zw080_siren_gen5
+          - entity: zwave.aeon_labs_zw080_siren_gen5_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_3

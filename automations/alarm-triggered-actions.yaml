@@ -48,4 +48,7 @@
         flash: long
     - service: switch.turn_on
       data:
+        entity_id: switch.aeon_labs_zw080_siren_gen5_switch
+    - service: switch.turn_on
+      data:
         entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
