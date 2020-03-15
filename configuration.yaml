@@ -190,6 +190,25 @@ binary_sensor:
           {% else %}
             mdi:alert
           {% endif %}
+      storage_door:
+        friendly_name: "Bergingdeur"
+        device_class: door
+        value_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_4', '22') %}
+            open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_4', '23') %}
+            closed
+          {% else %}
+            unknown
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_4', '22') %}
+            mdi:door-open
+          {% elif is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control_4', '23') %}
+            mdi:door-closed-lock
+          {% else %}
+            mdi:alert
+          {% endif %}
 
 # Alarm panel config
 alarm_control_panel:

@@ -5,11 +5,6 @@
       entity_id: alarm_control_panel.home_alarm
       to: 'disarmed'
   action:
-    # Turn off sirens
-    - service: switch.turn_off
-      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
-    - service: switch.turn_off
-      entity_id: switch.aeon_labs_zw080_siren_gen5_switch
     # Inform Alexander that alarm is disarmed
     - service: notify.mobile_app_iphone_x_alexander
       data:
@@ -17,6 +12,11 @@
         message: 'The alarm is DISARMED at {{now().strftime("%H:%M %d-%m-%Y")}}'
         data:
           subtitle: 'DISARMED'
+    # Turn off sirens
+    - service: switch.turn_off
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
+    - service: switch.turn_off
+      entity_id: switch.aeon_labs_zw080_siren_gen5_switch
     # Give voice confirmation that alarm is disabled
     - service: script.sonos_say
       data:

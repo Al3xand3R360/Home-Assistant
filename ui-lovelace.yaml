@@ -26,6 +26,38 @@ views:
         details: false
         forecast: true
         type: custom:weather-card
+      - card:
+          cards:
+            - cards:
+                - entity: lock.poly_control_danalock_v3_btze_locked
+                  hold_action:
+                    action: none
+                  icon: 'mdi:lock-open'
+                  name: Open Door
+                  tap_action:
+                    action: call-service
+                    service: lock.unlock
+                    service_data:
+                      entity_id: lock.poly_control_danalock_v3_btze_locked
+                  theme: Backend-selected
+                  type: entity-button
+                - entity: input_boolean.visitor_ring
+                  hold_action:
+                    action: none
+                  icon: 'mdi:cancel'
+                  name: Ignore
+                  tap_action:
+                    action: toggle
+                  theme: Backend-selected
+                  type: entity-button
+              type: horizontal-stack
+            - entity: camera.front_door_live
+              type: picture-entity
+          type: vertical-stack
+        conditions:
+          - entity: input_boolean.visitor_ring
+            state: 'on'
+        type: conditional
       - cards:
           - entity: sensor.woonkamer_temperature
             graph: line
@@ -98,72 +130,30 @@ views:
     panel: false
     title: Security
   - badges:
-      - camera.front_door_last_motion
-      - camera.front_door_last_ring
+          #- camera.front_door_last_motion
+          #- camera.front_door_last_ring
       - binary_sensor.front_door
       - binary_sensor.fuse_box_door
       - binary_sensor.sliding_door
       - binary_sensor.scullery_door
+      - binary_sensor.storage_door
     cards:
+      - cards:
+          - entity: camera.front_door_last_motion
+            type: picture-entity
+          - entity: camera.front_door_last_ring
+            type: picture-entity
+        type: horizontal-stack
       - columns: 2
         entities:
+          - entity: camera.front_door_live
+          - entity: lock.poly_control_danalock_v3_btze_locked
           - entity: cover.rolluiken_kamer_rens
           - entity: cover.rolluiken_kamer_maxime
-          - entity: lock.poly_control_danalock_v3_btze_locked
         show_icon: true
         show_state: true
-        title: Status van ramen & deuren
+        title: Status voordeur & rolluiken
         type: glance
-      - cards:
-          - entity: lock.poly_control_danalock_v3_btze_locked
-            icon: 'mdi:door-open'
-            name: Open Frontdoor
-            tap_action:
-              action: call-service
-              service: script.open_and_disarm
-            type: entity-button
-          - entity: lock.poly_control_danalock_v3_btze_locked
-            icon: 'mdi:door-closed-lock'
-            name: Close Frontdoor
-            tap_action:
-              action: call-service
-              service: lock.lock
-              service_data:
-                entity_id: lock.poly_control_danalock_v3_btze_locked
-            type: entity-button
-        type: horizontal-stack
-      - card:
-          cards:
-            - entity: camera.front_door_live
-              type: picture-entity
-            - cards:
-                - entity: lock.poly_control_danalock_v3_btze_locked
-                  hold_action:
-                    action: none
-                  icon: 'mdi:lock-open'
-                  name: Open Door
-                  tap_action:
-                    action: call-service
-                    service: lock.unlock
-                    service_data:
-                      entity_id: lock.poly_control_danalock_v3_btze_locked
-                  theme: Backend-selected
-                  type: entity-button
-                - entity: input_boolean.visitor_ring
-                  hold_action:
-                    action: none
-                  icon: 'mdi:cancel'
-                  name: Ignore
-                  tap_action:
-                    action: toggle
-                  theme: Backend-selected
-                  type: entity-button
-              type: horizontal-stack
-          type: vertical-stack
-        conditions:
-          - entity: input_boolean.visitor_ring
-            state: 'on'
-        type: conditional
     icon: 'mdi:cctv'
     path: cameras
     title: Camera's
@@ -201,15 +191,8 @@ views:
         show_state: false
         title: Hue Scenes
         type: glance
-      - columns: 3
+      - columns: 5
         entities:
-          - entity: light.hal
-            hold_action:
-              action: more-info
-            icon: 'mdi:stairs'
-            name: Hal
-            tap_action:
-              action: toggle
           - entity: light.woonkamer
             hold_action:
               action: more-info
@@ -228,6 +211,13 @@ views:
             hold_action:
               action: more-info
             icon: 'mdi:stove'
+            tap_action:
+              action: toggle
+          - entity: light.hal
+            hold_action:
+              action: more-info
+            icon: 'mdi:stairs'
+            name: Hal
             tap_action:
               action: toggle
           - entity: light.overloop
@@ -281,6 +271,28 @@ views:
     title: Lights
   - badges: []
     cards:
+      - cards:
+          - entity: media_player.mybraviatv
+            type: custom:mini-media-player
+            hide:
+              volume: true
+          - entity: media_player.speakers
+            type: custom:mini-media-player 
+            icon: 'mdi:speaker'
+          - entity: media_player.xbox_one
+            type: custom:mini-media-player
+            icon: 'mdi:xbox'
+          - entity: media_player.woonkamer
+            type: custom:mini-media-player
+            icon: 'mdi:airplay'
+            hide:
+              volume: true
+        type: vertical-stack
+    icon: 'mdi:airplay'
+    panel: false
+    title: Mediaplayers
+  - badges: []
+    cards:
       - type: vertical-stack      
         cards:
           - type: 'custom:simple-thermostat'
@@ -296,9 +308,9 @@ views:
                 name: Luchtvochtigheid
           - cards:
               - entities: 
-                  - sensor.woonkamer_temperature
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
                 type: custom:mini-graph-card
-                name: Tado woonkamer
+                name: Sensor Voordeur
                 hours_to_show: 48
               - entities:
                   - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature
@@ -307,15 +319,15 @@ views:
                 hours_to_show: 48
             type: horizontal-stack
           - cards:
-              - entities: 
-                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_2
-                type: custom:mini-graph-card
-                name: Sensor Voordeur
-                hours_to_show: 48
               - entities:
                   - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_3
                 type: custom:mini-graph-card
                 name: Sensor Bijkeuken
+                hours_to_show: 48
+              - entities: 
+                  - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature_4
+                type: custom:mini-graph-card
+                name: Sensor Berging
                 hours_to_show: 48
             type: horizontal-stack
       - type: vertical-stack
@@ -396,30 +408,8 @@ views:
                 line_width: 3
             title: Zolder
             type: horizontal-stack
-    icon: "mdi:radiator"
+    icon: "mdi:fire"
     title: Heating
-  - badges: []
-    cards:
-      - cards:
-          - entity: media_player.mybraviatv
-            type: custom:mini-media-player
-            hide:
-              volume: true
-          - entity: media_player.speakers
-            type: custom:mini-media-player 
-            icon: 'mdi:speaker'
-          - entity: media_player.xbox_one
-            type: custom:mini-media-player
-            icon: 'mdi:xbox'
-          - entity: media_player.woonkamer
-            type: custom:mini-media-player
-            icon: 'mdi:airplay'
-            hide:
-              volume: true
-        type: vertical-stack
-    icon: 'mdi:airplay'
-    panel: false
-    title: Mediaplayers
   - badges: []
     cards:
       - entities:
@@ -446,12 +436,12 @@ views:
           - entity: zwave.aeon_labs_zw129_wallmote_duo
           - entity: zwave.aeon_labs_zw130_wallmote_quad
           - entity: zwave.aeon_labs_zw130_wallmote_quad_2
-          - entity: zwave.aeon_labs_zw130_wallmote_quad_3
           - entity: zwave.aeon_labs_zw080_siren_gen5
           - entity: zwave.aeon_labs_zw080_siren_gen5_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_3
+          - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_4
           - entity: zwave.aeotec_limited_zwa008_door_window_sensor_7
           - entity: zwave.poly_control_danalock_v3_btze
           - entity: zwave.aeon_labs_zw141_nano_shutter

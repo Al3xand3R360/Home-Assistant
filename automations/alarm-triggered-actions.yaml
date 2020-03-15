@@ -14,6 +14,13 @@
     # Wait for 15 seconds and sound the alarm
     - delay:
         seconds: 10
+    # Turn on sirens
+    - service: switch.turn_on
+      data:
+        entity_id: switch.aeon_labs_zw080_siren_gen5_switch # Sirene bijkeuken
+    - service: switch.turn_on
+      data:
+        entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3 # Sirene woonkamer
     # Send notifications to Alexander and Corinne
     - service: notify.mobile_app_iphone_x_alexander
       data:
@@ -46,9 +53,3 @@
         rgb_color: [255,0,0]
         brightness: 255
         flash: long
-    - service: switch.turn_on
-      data:
-        entity_id: switch.aeon_labs_zw080_siren_gen5_switch
-    - service: switch.turn_on
-      data:
-        entity_id: switch.aeon_labs_zw080_siren_gen5_switch_3
