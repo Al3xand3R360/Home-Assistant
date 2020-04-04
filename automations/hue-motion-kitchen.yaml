@@ -5,7 +5,7 @@
     to: 'on'
   condition:
     - condition: template
-      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
+      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 8132 }}"
     - condition: state
       entity_id: light.eetkamer
       state: 'on'
@@ -22,7 +22,7 @@
     to: 'on'
   condition:
     - condition: template
-      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 5124 }}"
+      value_template: "{{ states.binary_sensor.hue_motion_motion_keuken.attributes.light_level < 8132 }}"
     - condition: state
       entity_id: light.keuken
       state: 'off'

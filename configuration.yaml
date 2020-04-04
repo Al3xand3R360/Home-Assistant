@@ -71,6 +71,11 @@ person:
 # IOS app integration
 mobile_app:
 
+# Hue bridge config
+hue:
+  bridges:
+    - host: 192.168.178.20
+
 # Add to Homekit
 homekit:
   auto_start: False
@@ -249,13 +254,13 @@ media_player:
     name: MyBraviaTV
   - platform: xboxone
     device: !secret xbox_live_id
-    ip_address: 192.168.178.23
+    ip_address: 192.168.178.38
     name: Xbox One
 
 # AppleTV tvOS13
 apple_tv_mrp:
   - name: Woonkamer
-    host: 192.168.178.22
+    host: 192.168.178.27
     port: 49152
     credentials: !secret atv_credentials
     start_off: true
@@ -324,6 +329,14 @@ input_number:
     step: 1
 
 cover:
+  - platform: rfxtrx
+    automatic_add: false
+    signal_repetitions: 1 # signal_repetitions: 1 for the Somfy covers (avoid to stop the motion after start)
+    devices:
+      071a000000000101: # RFY
+        name: Rolgordijn voorraam
+      071a000000000202: # RFY
+        name: Lamellendak
   - platform: group
     name: Rolluiken kamer Rens
     entities:
@@ -353,6 +366,10 @@ http:
 
 # Cloud
 cloud:
+
+# RFXtrx config for sompfy remotes
+rfxtrx:
+  device: /dev/serial/by-id/usb-RFXCOM_RFXtrx433XL_DO4GUAEL-if00-port0
 
 # Z-Wave configuration
 zwave:

@@ -19,8 +19,8 @@ def extract_value(line):
 event = 'script.dimmer'
 
 ##HA information
-URI = ''
-TOKEN = ''
+URI = 'https://hass-vansteen.duckdns.org/api/services/script/turn_on'
+TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI0NjRhZWRhMmI4NDA0NzU1OGFiMTViYmY4ZTc1ZWZmZCIsImlhdCI6MTU1OTc3MzU0MiwiZXhwIjoxODc1MTMzNTQyfQ.WAGGNmg7FEUjU2MwLI6E16kx3DH7EtlnBOdhOgRfyT8'
 OZW_LOG = '/home/homeassistant/.homeassistant/OZW_Log.txt'
 
 debug = False
