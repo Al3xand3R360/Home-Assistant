@@ -65,7 +65,6 @@ sonos_say:
      data_template:
        entity_id: "{{ sonos_entity }}"
 
-
 read_weatherforecast:
   alias: "Gesproken weerbericht"
   sequence:
@@ -74,9 +73,6 @@ read_weatherforecast:
         sonos_entity: media_player.speakers
         volume: 0.2
         delay: 8
-        #   - service: tts.google_translate_say
-        #data_template:
-        #entity_id: media_player.speakers
         message: >
           {% if now().strftime("%H")|int < 12 %}
           Goedemorgen het is {{now().strftime("%A")}}.
@@ -231,3 +227,42 @@ goodmorning:
     - service: light.turn_on
       data:
         entity_id: light.keuken
+
+open_veraluxe_roof_morning:
+  sequence:
+    - service: cover.open_cover
+      data_template:
+        entity_id: cover.lamellendak
+    - delay:
+       seconds: 15
+    - service: cover.stop_cover
+      data_template:
+        entity_id: cover.lamellendak
+
+open_veraluxe_roof_afternoon:
+  sequence:
+    - service: cover.open_cover
+      data_template:
+        entity_id: cover.lamellendak
+    - delay:
+       seconds: 30
+    - service: cover.stop_cover
+      data_template:
+        entity_id: cover.lamellendak
+
+open_somfy_curtain_half:
+  sequence:
+    - service: cover.open_cover
+      data_template:
+        entity_id: cover.rolgordijn
+    - delay:
+       seconds: 25
+    - service: cover.stop_cover
+      data_template:
+        entity_id: cover.rolgordijn
+
+open_somfy_curtain_full:
+  sequence:
+    - service: cover.open_cover
+      data_template:
+        entity_id: cover.rolgordijn

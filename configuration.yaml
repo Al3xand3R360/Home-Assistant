@@ -15,6 +15,9 @@ homeassistant:
 
 weather:
    - platform: buienradar
+     name: 'arnhem'
+     latitude: 52.07
+     longitude: 5.88
 
 # Show links to resources in log and frontend
 #introduction:
@@ -26,8 +29,19 @@ frontend:
 # Set lovelace to yaml mode instead of UI
 lovelace:
   mode: yaml
+  resources:
+    - url: /local/custom-lovelace/weather-card/weather-card.js
+      type: module
+    - url: /local/custom-lovelace/simple-thermostat/simple-thermostat.js
+      type: module
+    - url: /local/custom-lovelace/mini-graph-card-bundle.js?v=0.9.3
+      type: module
+    - url: /local/custom-lovelace/mini-media-player-bundle.js?v=1.5.2
+      type: module
+    - url: /local/custom-lovelace/compact-custom-header/custom-header.js?v=0.0.1
+      type: module
 
-# Enables configuration UI
+# Enables configuration section in UI
 config:
 
 # Checks for available updates
@@ -82,16 +96,15 @@ homekit:
   filter:
     include_entities:
        - alarm_control_panel.home_alarm
-       - zwave.aeon_labs_zw080_siren_gen5
-       - zwave.aeon_labs_zw080_siren_gen5_2
        - switch.aeon_labs_zw080_siren_gen5_switch
        - switch.aeon_labs_zw080_siren_gen5_switch_3
-       - binary_sensor.sliding_door
        - sensor.br_temperature_2
        - media_player.xbox_one
        - media_player.mybraviatv
        - cover.rolluiken_kamer_rens
        - cover.rolluiken_kamer_maxime
+       - cover.rolgordijn
+       - cover.lamellendak
   entity_config:
     media_player.xbox_one:
       feature_list:
@@ -104,9 +117,106 @@ duckdns:
   domain: hass-vansteen
   access_token: !secret duck_access_token
 
+#SSL (LE) settings
+http:
+  ssl_certificate: /etc/letsencrypt/live/hass-vansteen.duckdns.org/fullchain.pem
+  ssl_key: /etc/letsencrypt/live/hass-vansteen.duckdns.org/privkey.pem
+  base_url: !secret hass_url
+  #  api_password: !secret http_api_password
+
+# Cloud
+cloud:
+
+# Alarm panel config
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    code: !secret alarm_code
+    pending_time: 5
+    delay_time: 5
+    trigger_time: 5
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      pending_time: 0
+      delay_time: 0
+    armed_night:
+      pending_time: 20
+      delay_time: 10
+    armed_away:
+      pending_time: 20
+      delay_time: 10
+
+# Text to speech
+tts:
+  - platform: google_translate
+    language: 'nl'
+
+# Media Player component
+media_player:
+  - platform: braviatv_psk
+    host: 192.168.178.24
+    psk: !secret braviatv_psk
+    mac: 90:48:9a:4c:7e:4e
+    amp: True
+    android: False
+    sourcefilter:
+      - ' HD'
+      - HDMI
+    name: MyBraviaTV
+  - platform: xboxone
+    device: !secret xbox_live_id
+    ip_address: 192.168.178.38
+    name: Xbox One
+
+stream:
+
+camera:
+  - platform: buienradar
+
+# Tado thermostats
+tado:
+  username: !secret tado_user
+  password: !secret tado_pass
+
+# Roomba stofzuiger
+#vacuum:
+#  - platform: roomba
+#    host: 192.168.178.46
+#    username: !secret roomba_user
+#    password: !secret roomba_pass
+
+cover:
+  - platform: rfxtrx
+    automatic_add: false
+    signal_repetitions: 1 # signal_repetitions: 1 for the Somfy covers (avoid to stop the motion after start)
+    devices:
+      071a000000000101: # RFY
+        name: Rolgordijn voorraam
+      071a000000000202: # RFY
+        name: Lamellendak
+  - platform: group
+    name: Rolluiken kamer Rens
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam
+      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts
+      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links 
+  - platform: group
+    name: Rolluiken kamer Maxime
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam
+      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links
+  - platform: group
+    name: Alle rolluiken
+    entities:
+      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links Rens
+      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam Maxime
+      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links Maxime
+
 # Sensors
 sensor:
-  # Weather prediction
   - platform: buienradar
     monitored_conditions:
       - symbol
@@ -215,90 +325,6 @@ binary_sensor:
             mdi:alert
           {% endif %}
 
-# Alarm panel config
-alarm_control_panel:
-  - platform: manual
-    name: Home Alarm
-    code: !secret alarm_code
-    pending_time: 5
-    delay_time: 5
-    trigger_time: 5
-    disarmed:
-      trigger_time: 0
-    armed_home:
-      pending_time: 0
-      delay_time: 0
-    armed_night:
-      pending_time: 20
-      delay_time: 10
-    armed_away:
-      pending_time: 20
-      delay_time: 10
-
-# Text to speech
-tts:
-  - platform: google_translate
-    language: 'nl'
-
-# Media Player component
-media_player:
-  - platform: braviatv_psk
-    host: 192.168.178.24
-    psk: !secret braviatv_psk
-    mac: 90:48:9a:4c:7e:4e
-    amp: True
-    android: False
-    sourcefilter:
-      - ' HD'
-      - HDMI
-    name: MyBraviaTV
-  - platform: xboxone
-    device: !secret xbox_live_id
-    ip_address: 192.168.178.38
-    name: Xbox One
-
-# AppleTV tvOS13
-apple_tv_mrp:
-  - name: Woonkamer
-    host: 192.168.178.27
-    port: 49152
-    credentials: !secret atv_credentials
-    start_off: true
-
-# Intercom configuration
-doorbird:
-  devices:
-    - host: !secret doorbird_host
-      username: !secret doorbird_user
-      password: !secret doorbird_pass
-      hass_url_override: 192.168.178.25
-      token: !secret doorbird_token
-      name: 'Front Door'
-      events:
-        - doorbell
-        - motion
-        - rfid_card_scanned
-
-stream:
-
-camera:
-  - platform: doorbird
-
-switch:
-  - platform: doorbird
-
-# Tado thermostats
-tado:
-  username: !secret tado_user
-  password: !secret tado_pass
-
-# Roomba stofzuiger
-#vacuum:
-#  - platform: roomba
-#    host: 192.168.178.46
-#    username: !secret roomba_user
-#    password: !secret roomba_pass
-
 # Input_boolean used for Doorbird conditional card in frontend
 input_boolean:
   visitor_ring:
@@ -327,45 +353,6 @@ input_number:
     min: 50
     max: 255
     step: 1
-
-cover:
-  - platform: rfxtrx
-    automatic_add: false
-    signal_repetitions: 1 # signal_repetitions: 1 for the Somfy covers (avoid to stop the motion after start)
-    devices:
-      071a000000000101: # RFY
-        name: Rolgordijn voorraam
-      071a000000000202: # RFY
-        name: Lamellendak
-  - platform: group
-    name: Rolluiken kamer Rens
-    entities:
-      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam
-      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts
-      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links 
-  - platform: group
-    name: Rolluiken kamer Maxime
-    entities:
-      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam
-      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links
-  - platform: group
-    name: Alle rolluiken
-    entities:
-      - cover.aeon_labs_zw141_nano_shutter_level # Kantelkiepraam Rens
-      - cover.aeon_labs_zw141_nano_shutter_level_2 # Zijraam rechts Rens
-      - cover.aeon_labs_zw141_nano_shutter_level_3 # Raam Links Rens
-      - cover.aeon_labs_zw141_nano_shutter_level_4 #Kantelkiepraam Maxime
-      - cover.aeon_labs_zw141_nano_shutter_level_5 # Raam links Maxime
-
-#SSL (LE) settings
-http:
-  ssl_certificate: /etc/letsencrypt/live/hass-vansteen.duckdns.org/fullchain.pem
-  ssl_key: /etc/letsencrypt/live/hass-vansteen.duckdns.org/privkey.pem
-  base_url: !secret hass_url
-  #  api_password: !secret http_api_password
-
-# Cloud
-cloud:
 
 # RFXtrx config for sompfy remotes
 rfxtrx:

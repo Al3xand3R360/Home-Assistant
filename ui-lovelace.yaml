@@ -8,24 +8,6 @@ views:
       - alarm_control_panel.home_alarm
       - sun.sun
     cards:
-      - cards:
-          - entity: group.all_lights
-            icon: 'mdi:lightbulb-outline'
-            icon_height: 157px
-            name: Alle lampen uit
-            tap_action:
-              action: call-service
-              service: light.turn_off
-            type: entity-button
-          - entity: light.woonkamer
-            name: Woonkamer
-            type: light
-        type: horizontal-stack
-        entity: weather.br_unknown_station
-        current: true
-        details: false
-        forecast: true
-        type: custom:weather-card
       - card:
           cards:
             - cards:
@@ -58,6 +40,23 @@ views:
           - entity: input_boolean.visitor_ring
             state: 'on'
         type: conditional
+      - cards:
+          - entity: script.turn_off_indoor_lights
+            icon: 'mdi:lightbulb-outline'
+            name: Alle lampen uit
+            tap_action:
+              action: call-service
+              service: script.turn_off_indoor_lights
+            type: entity-button
+          - entity: light.woonkamer
+            name: Woonkamer
+            type: light
+        type: horizontal-stack
+      - entity: weather.arnhem
+        current: true
+        details: false
+        forecast: true
+        type: custom:weather-card
       - cards:
           - entity: sensor.woonkamer_temperature
             graph: line
@@ -130,8 +129,6 @@ views:
     panel: false
     title: Security
   - badges:
-          #- camera.front_door_last_motion
-          #- camera.front_door_last_ring
       - binary_sensor.front_door
       - binary_sensor.fuse_box_door
       - binary_sensor.sliding_door
@@ -148,11 +145,19 @@ views:
         entities:
           - entity: camera.front_door_live
           - entity: lock.poly_control_danalock_v3_btze_locked
+        show_icon: true
+        show_state: true
+        title: Status voordeur
+        type: glance
+      - columns: 2
+        entities:
+          - entity: cover.lamellendak
+          - entity: cover.rolgordijn_voorraam
           - entity: cover.rolluiken_kamer_rens
           - entity: cover.rolluiken_kamer_maxime
         show_icon: true
         show_state: true
-        title: Status voordeur & rolluiken
+        title: Status ramen & lamellendak
         type: glance
     icon: 'mdi:cctv'
     path: cameras
@@ -285,6 +290,7 @@ views:
           - entity: media_player.woonkamer
             type: custom:mini-media-player
             icon: 'mdi:airplay'
+            artwork: full-cover
             hide:
               volume: true
         type: vertical-stack
@@ -412,6 +418,34 @@ views:
     title: Heating
   - badges: []
     cards:
+      - type: glance
+        entities:
+          - entity: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
+            name: Verlichting
+            icon: "mdi:led-strip"
+            tap_action:
+              action: toggle
+          - entity: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+            name: Verwarming
+            icon: "mdi:fire"
+            tap_action:
+              action: toggle
+        title: Spiegel
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.qubino_goap_zmnhbdx_flush_2_relays_power
+            name: Mirror Ledstrip (W)
+            color: "#1e90ff"
+          - entity: sensor.qubino_goap_zmnhbdx_flush_2_relays_power_2
+            name: Mirror Heating (W)
+            color: "#ff0000"
+        name: Power consumption (last 12 hours)
+        hours_to_show: 12
+        line_width: 3
+    icon: "mdi:shower"
+    title: Bathroom
+  - badges: []
+    cards:
       - entities:
           - entity: binary_sensor.hue_motion_motion_keuken
           - entity: binary_sensor.hue_motion_sensor_motion_overloop
@@ -444,6 +478,7 @@ views:
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2_4
           - entity: zwave.aeotec_limited_zwa008_door_window_sensor_7
           - entity: zwave.poly_control_danalock_v3_btze
+          - entity: zwave.qubino_goap_zmnhbdx_flush_2_relays
           - entity: zwave.aeon_labs_zw141_nano_shutter
           - entity: zwave.aeon_labs_zw141_nano_shutter_2
           - entity: zwave.aeon_labs_zw141_nano_shutter_3
@@ -453,18 +488,6 @@ views:
         type: entities
     icon: 'mdi:settings'
     title: Settings
-
-resources:
-  - url: /local/custom-lovelace/weather-card/weather-card.js
-    type: module
-  - url: /local/custom-lovelace/simple-thermostat/simple-thermostat.js
-    type: module
-  - url: /local/custom-lovelace/mini-graph-card-bundle.js
-    type: module
-  - url: /local/custom-lovelace/mini-media-player-bundle.js?v=1.5.2
-    type: module
-  - url: /local/custom-lovelace/compact-custom-header/custom-header.js?v=0.0.1
-    type: module
 
 custom_header:
   background: 'rgba(155, 155, 155, 0.25)'

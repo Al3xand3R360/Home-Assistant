@@ -1,0 +1,29 @@
+- alias: "Close curtain in livingroom"
+  trigger:
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    below: -5.0
+  action:
+    service: cover.close_cover
+    entity_id: cover.rolgordijn_voorraam
+
+- alias: "Open curtain in livingroom in the morning"
+  trigger:
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    above: +9.0
+  action:
+    service: script.turn_on
+    entity_id: script.open_somfy_curtain_half
+
+- alias: "Open curtain in livingroom"
+  trigger:
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    above: +14.0
+  action:
+    service: script.turn_on
+    entity_id: script.open_somfy_curtain_full
