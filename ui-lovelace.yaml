@@ -40,18 +40,12 @@ views:
           - entity: input_boolean.visitor_ring
             state: 'on'
         type: conditional
-      - cards:
-          - entity: script.turn_off_indoor_lights
-            icon: 'mdi:lightbulb-outline'
-            name: Alle lampen uit
-            tap_action:
-              action: call-service
-              service: script.turn_off_indoor_lights
-            type: entity-button
-          - entity: light.woonkamer
-            name: Woonkamer
-            type: light
-        type: horizontal-stack
+      - entity: media_player.speakers
+        type: custom:mini-media-player
+        icon: "mdi:speaker"
+        hide:
+          power: true
+        artwork: cover
       - entity: weather.arnhem
         current: true
         details: false
@@ -167,7 +161,6 @@ views:
       - cards:
           - entity: script.turn_off_indoor_lights
             icon: 'mdi:lightbulb-group-off-outline'
-            icon_height: 165px
             name: Alle lampen uit
             tap_action:
               action: call-service
@@ -470,6 +463,7 @@ views:
           - entity: zwave.aeon_labs_zw129_wallmote_duo
           - entity: zwave.aeon_labs_zw130_wallmote_quad
           - entity: zwave.aeon_labs_zw130_wallmote_quad_2
+          - entity: zwave.aeon_labs_zw130_wallmote_quad_3
           - entity: zwave.aeon_labs_zw080_siren_gen5
           - entity: zwave.aeon_labs_zw080_siren_gen5_2
           - entity: zwave.fibaro_system_fgdw002_door_opening_sensor_2

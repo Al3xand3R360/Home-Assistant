@@ -10,6 +10,18 @@
   action:
       service: script.toggle
       entity_id: script.1549758920504
+- alias: Apple TV idle
+  trigger:
+    - platform: state
+      entity_id: media_player.woonkamer
+      to: 'idle'
+  condition:
+    - condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
+  action:
+      service: script.toggle
+      entity_id: script.1549758920504
 - alias: Apple TV playing
   trigger:
     - platform: state

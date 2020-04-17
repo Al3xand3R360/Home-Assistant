@@ -55,6 +55,7 @@ ios-dark-mode:
   ha-card-border-radius: 15px
   ha-card-background: rgba(10, 10, 10, 0.4)
   paper-card-background-color: var(--ha-card-background)
+  mini-media-player-artwork-opacity: 0.7
   # Toggles
   paper-toggle-button-checked-button-color: "#484848"
   paper-toggle-button-checked-bar-color: "#484848"

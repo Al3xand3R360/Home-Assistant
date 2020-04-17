@@ -32,13 +32,13 @@
       group_name: 'Keuken'
       scene_name: 'Gedimd'
 
-- alias: Turn off kitchen light 3 minutes after last movement
+- alias: Turn off kitchen light 5 minutes after last movement
   trigger:
     platform: state
     entity_id: binary_sensor.hue_motion_motion_keuken
     to: 'off'
     for:
-      minutes: 3
+      minutes: 5
   condition:
     - condition: template
       value_template: "{{ as_timestamp(now()) - as_timestamp(states.binary_sensor.hue_motion_motion_keuken.last_changed) > 180  }}"

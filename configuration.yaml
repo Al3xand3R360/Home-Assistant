@@ -38,7 +38,7 @@ lovelace:
       type: module
     - url: /local/custom-lovelace/mini-media-player-bundle.js?v=1.5.2
       type: module
-    - url: /local/custom-lovelace/compact-custom-header/custom-header.js?v=0.0.1
+    - url: /local/custom-lovelace/compact-custom-header/custom-header.js?v=1.3.8
       type: module
 
 # Enables configuration section in UI
@@ -103,7 +103,7 @@ homekit:
        - media_player.mybraviatv
        - cover.rolluiken_kamer_rens
        - cover.rolluiken_kamer_maxime
-       - cover.rolgordijn
+       - cover.rolgordijn_voorraam
        - cover.lamellendak
   entity_config:
     media_player.xbox_one:

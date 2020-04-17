@@ -26,4 +26,4 @@
     above: +14.0
   action:
     service: script.turn_on
-    entity_id: script.open_somfy_curtain_full
+    entity_id: script.open_somfy_curtain_half

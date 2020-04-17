@@ -228,24 +228,13 @@ goodmorning:
       data:
         entity_id: light.keuken
 
-open_veraluxe_roof_morning:
+open_veraluxe_roof_half:
   sequence:
     - service: cover.open_cover
       data_template:
         entity_id: cover.lamellendak
     - delay:
-       seconds: 15
-    - service: cover.stop_cover
-      data_template:
-        entity_id: cover.lamellendak
-
-open_veraluxe_roof_afternoon:
-  sequence:
-    - service: cover.open_cover
-      data_template:
-        entity_id: cover.lamellendak
-    - delay:
-       seconds: 30
+       seconds: 13.5
     - service: cover.stop_cover
       data_template:
         entity_id: cover.lamellendak
@@ -254,15 +243,15 @@ open_somfy_curtain_half:
   sequence:
     - service: cover.open_cover
       data_template:
-        entity_id: cover.rolgordijn
+        entity_id: cover.rolgordijn_voorraam
     - delay:
-       seconds: 25
+       seconds: 22
     - service: cover.stop_cover
       data_template:
-        entity_id: cover.rolgordijn
+        entity_id: cover.rolgordijn_voorraam
 
 open_somfy_curtain_full:
   sequence:
     - service: cover.open_cover
       data_template:
-        entity_id: cover.rolgordijn
+        entity_id: cover.rolgordijn_voorraam

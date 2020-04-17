@@ -23,7 +23,7 @@
           state: 'home'
   action:
       service: script.turn_on
-      entity_id: script.open_veraluxe_roof_morning
+      entity_id: script.open_veraluxe_roof_half
 
 - alias: "Close roof when it turns dark"
   trigger:
