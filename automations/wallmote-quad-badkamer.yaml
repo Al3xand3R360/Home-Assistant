@@ -1,0 +1,113 @@
+- alias: Button 1 tap badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_3
+      scene_id: 1
+      scene_data: 0
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
+- alias: Button 1 hold badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_3
+      scene_id: 1
+      scene_data: 2
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
+
+- alias: Button 2 tap badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_3
+      scene_id: 2
+      scene_data: 0
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+- alias: Button 2 hold badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_3
+      scene_id: 2
+      scene_data: 2
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+
+- alias: Button 3 tap badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 3
+      scene_data: 0
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+- alias: Button 3 hold badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 3
+      scene_data: 2
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+
+- alias: Button 4 tap badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 4
+      scene_data: 0
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
+- alias: Button 4 hold badkamer
+  initial_state: true
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeon_labs_zw130_wallmote_quad_2
+      scene_id: 4
+      scene_data: 2
+  action:
+  - service: switch.turn_off
+    data:
+      entity_id: switch.qubino_goap_zmnhbdx_flush_2_relays_switch_2
