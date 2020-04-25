@@ -3,7 +3,7 @@
     platform: numeric_state
     entity_id: sun.sun
     value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-    below: -5.0
+    below: -4.8
   action:
     service: cover.close_cover
     entity_id: cover.rolgordijn_voorraam
@@ -23,7 +23,7 @@
     platform: numeric_state
     entity_id: sun.sun
     value_template: "{{ state_attr('sun.sun', 'elevation') }}"
-    above: +14.0
+    above: +20.0
   action:
     service: script.turn_on
     entity_id: script.open_somfy_curtain_half

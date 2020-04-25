@@ -1,4 +1,4 @@
-- alias: Button 1 tap
+- alias: Button 1 tap hal
   initial_state: true
   trigger:
   - platform: event
@@ -12,7 +12,7 @@
     data:
       group_name: "Hal"
       scene_name: "Gedimd"
-- alias: Button 1 hold
+- alias: Button 1 hold hal
   initial_state: true
   trigger:
   - platform: event
@@ -26,7 +26,8 @@
     data:
       entity_id: alarm_control_panel.home_alarm
       code: !secret alarm_code
-- alias: Button 2 tap
+      
+- alias: Button 2 tap hal
   initial_state: true
   trigger:
   - platform: event
@@ -36,10 +37,11 @@
       scene_id: 2
       scene_data: 0
   action:
-  - service: script.turn_off_indoor_lights
+  - service: hue.hue_activate_scene
     data:
-      entity_id: script.turn_off_indoor_lights
-- alias: Button 2 hold
+      group_name: "Woonkamer"
+      scene_name: "TV kijken"
+- alias: Button 2 hold hal
   initial_state: true
   trigger:
   - platform: event
@@ -49,7 +51,15 @@
       scene_id: 2
       scene_data: 2
   action:
-  - service: hue.hue_activate_scene
+  - service: script.turn_off_indoor_lights
     data:
-      group_name: "Woonkamer"
-      scene_name: "TV kijken"
+      entity_id: script.turn_off_indoor_lights
+  - service: cover.close_cover
+    data:
+      entity_id: cover.alle_rolluiken
+  - service: cover.close_cover
+    data:
+      entity_id: cover.lamellendak
+  - service: script.close_somfy_curtain_half
+    data:
+      entity_id: script.close_somfy_curtain_half

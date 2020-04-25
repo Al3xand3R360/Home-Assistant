@@ -34,3 +34,12 @@
   action:
     service: cover.close_cover
     entity_id: cover.lamellendak
+
+- alias: "Close roof when it gets warm"
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.br_temperature_2
+    above: 25
+  action:
+    service: cover.close_cover
+    entity_id: cover.lamellendak

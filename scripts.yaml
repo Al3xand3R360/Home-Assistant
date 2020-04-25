@@ -234,7 +234,7 @@ open_veraluxe_roof_half:
       data_template:
         entity_id: cover.lamellendak
     - delay:
-       seconds: 13.5
+       seconds: 12
     - service: cover.stop_cover
       data_template:
         entity_id: cover.lamellendak
@@ -245,13 +245,18 @@ open_somfy_curtain_half:
       data_template:
         entity_id: cover.rolgordijn_voorraam
     - delay:
-       seconds: 22
+       seconds: 23
     - service: cover.stop_cover
       data_template:
         entity_id: cover.rolgordijn_voorraam
 
-open_somfy_curtain_full:
+close_somfy_curtain_half:
   sequence:
-    - service: cover.open_cover
+    - service: cover.close_cover
+      data_template:
+        entity_id: cover.rolgordijn_voorraam
+    - delay:
+       seconds: 23
+    - service: cover.stop_cover
       data_template:
         entity_id: cover.rolgordijn_voorraam

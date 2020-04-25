@@ -75,15 +75,26 @@ views:
             name: Sensor schuifpui
             type: sensor
         type: horizontal-stack
-      - entities: []
-        entity: lock.poly_control_danalock_v3_btze_locked
-        state_image:
-          locked: /local/danalock_closed.png
-          unlocked: /local/danalock_open.png
-        tap_action:
-          action: more-info
-        title: Voordeur
-        type: picture-glance
+      - cards:
+          - entities: []
+            entity: lock.poly_control_danalock_v3_btze_locked
+            state_image:
+              'locked': /local/danalock_closed.png
+              'unlocked': /local/danalock_open.png
+            tap_action:
+              action: more-info
+            title: Voordeur
+            type: picture-glance
+          - entities: []
+            entity: vacuum.roomba
+            state_image:
+              'on': /local/i7_CleanBase_on.jpg
+              'off': /local/i7_CleanBase_off.jpg
+            tap_action:
+              action: more-info
+            title: Roomba i7+
+            type: picture-glance
+        type: horizontal-stack
       - cards:
           - entities: []
             entity: media_player.mybraviatv
@@ -432,8 +443,8 @@ views:
           - entity: sensor.qubino_goap_zmnhbdx_flush_2_relays_power_2
             name: Mirror Heating (W)
             color: "#ff0000"
-        name: Power consumption (last 12 hours)
-        hours_to_show: 12
+        name: Power consumption (last 24 hours)
+        hours_to_show: 24
         line_width: 3
     icon: "mdi:shower"
     title: Bathroom
@@ -450,6 +461,7 @@ views:
           - entity: light.eetkamer
           - entity: light.keuken
           - entity: light.overloop
+          - entity: switch.qubino_goap_zmnhbdx_flush_2_relays_switch
           - entity: light.kamer_rens
           - entity: light.kamer_maxime
           - entity: light.terras
@@ -490,8 +502,6 @@ custom_header:
   swipe_prevent_default: false
   compact_mode: true
   voice_hide: true
-  #  button_text:
-  #    options: '{{ hours24 }}:{{ minutesLZ }}'
 
 background: var(--background-image)
 
